@@ -1,0 +1,31 @@
+---
+permalink: /tag-index.json
+---
+[
+  {% assign sorted_tags = site.tags | sort %}
+  {% for tag in sorted_tags %}
+    {% assign tag_name = tag[0] %}
+    {% assign tag_posts = tag[1] %}
+    {% unless forloop.first %},{% endunless %}
+    {
+      "name": {{ tag_name | jsonify }},
+      "count": {{ tag_posts | size }},
+      "posts": [
+        {% for post in tag_posts %}
+          {% unless forloop.first %},{% endunless %}
+          {% capture post_meta %}{{ post.categories | join: ', ' }} | {{ post.tags | join: ', ' }}{% endcapture %}
+          {
+            "title": {{ post.title | jsonify }},
+            "url": {{ post.url | relative_url | jsonify }},
+            "date": {{ post.date | date: "%Y-%m-%d" | jsonify }},
+            "categories": {{ post.categories | jsonify }},
+            "tags": {{ post.tags | jsonify }},
+            "cover_image": {{ post.cover_image | relative_url | jsonify }},
+            "excerpt": {{ post.excerpt | strip_html | strip_newlines | jsonify }},
+            "meta": {{ post_meta | strip | jsonify }}
+          }
+        {% endfor %}
+      ]
+    }
+  {% endfor %}
+]
