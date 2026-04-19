@@ -254,7 +254,8 @@ img {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
+  align-items: stretch;
+  gap: 12px;
   width: 100%;
 }
 
@@ -265,7 +266,8 @@ img {
 .home-stat-card {
   display: grid;
   gap: 6px;
-  min-width: 180px;
+  flex: 1 1 168px;
+  min-width: 168px;
   padding: 18px 22px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 18px;
@@ -289,7 +291,8 @@ img {
 .home-floating-card {
   display: grid;
   gap: 12px;
-  min-width: 260px;
+  flex: 1 1 236px;
+  min-width: 236px;
   padding: 18px 22px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 18px;
