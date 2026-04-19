@@ -1,0 +1,46 @@
+---
+layout: default
+---
+<section class="archive-header">
+  <p class="section-kicker">{{ page.hero_kicker | default: "CATEGORY" }}</p>
+  <h1>{{ page.title }}</h1>
+  <p class="archive-copy">{{ page.description }}</p>
+</section>
+
+{% assign filtered_posts = site.posts | where_exp: "post", "post.categories contains page.filter_category" %}
+
+<div class="archive-list">
+  {% if filtered_posts.size > 0 %}
+    {% for post in filtered_posts %}
+    <article class="feed-card">
+      <div class="feed-meta">
+        <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+        {% if post.categories.size > 0 %}
+        <span>{{ post.categories | join: " / " }}</span>
+        {% endif %}
+      </div>
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      <p class="feed-excerpt">{{ post.excerpt | strip_html | strip_newlines }}</p>
+      <div class="feed-footer">
+        <div class="chip-row">
+          {% for tag in post.tags limit: 3 %}
+          <span class="chip">#{{ tag }}</span>
+          {% endfor %}
+        </div>
+        <a class="read-link" href="{{ post.url | relative_url }}">阅读全文</a>
+      </div>
+    </article>
+    {% endfor %}
+  {% else %}
+    <section class="panel-block">
+      <div class="panel-heading">
+        <h3>内容准备中</h3>
+        <span>{{ page.filter_category }}</span>
+      </div>
+      <p class="feed-excerpt">
+        这个分类页已经建好，后续你只需要在文章的 front matter 里写上
+        <code>{{ page.filter_category }}</code> 分类，这里就会自动显示相关文章。
+      </p>
+    </section>
+  {% endif %}
+</div>

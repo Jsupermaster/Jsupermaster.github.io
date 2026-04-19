@@ -4,27 +4,31 @@ nav: home
 title: 首页
 description: Jsupermaster 的个人博客首页。
 hero_kicker: WELCOME TO JSUPERMASTER'S BLOG
-hero_title: 欢迎来到贾宇童的技术主页
-hero_subtitle: 这里会持续记录 AI、并行计算、工程实践和学习笔记。现在站点已经切换到 Jekyll Markdown 博客系统，后面新增文章时只需要写 Markdown 即可。
+hero_title: 技术改变世界。Technology changes the world.
+hero_subtitle: 持续关注体系结构与芯片设计最新进展。Keep track of the latest developments in architecture and chip design.
 hero_meta:
-  - 持续更新
-  - GitHub Pages + Jekyll
-  - Markdown Writing
+  - 学习日志
+  - 最新工作
+  - 论文阅读
 topics:
-  - title: AI
-    description: 模型、推理、RAG、训练理解
-    href: /blog/index.html
-  - title: Parallel Computing
-    description: CUDA、算子优化、性能分析
-    href: /blog/index.html
-  - title: Engineering
-    description: 建站、工具链、项目总结
-    href: /blog/index.html
-about_text: 贾宇童的个人博客。这里适合放你的研究兴趣、方向介绍、近期关注主题，让访客一眼知道你在做什么。
+  - title: Latest Work
+    description: 我的最新工作，包括论文与开源项目
+    href: /blog/Latest_Work/index.html
+  - title: Computer Architecture
+    description: 体系结构知识理解、工具链使用
+    href: /blog/Computer_Architecture/index.html
+  - title: PIM/PNM
+    description: 近存计算论文阅读、工具链使用、架构设计
+    href: /blog/PIM/index.html
+  - title: AI Accelerator
+    description: AI加速最新进展、开源工作
+    href: /blog/AI_Accelerator/index.html
+about_text: Jia Yutong's personal blog. I graduated from JLU EE and am currently a phd student at ICT. My research interests focus on PIM/PNM Architecture, Computer Architecture, and the AI processor architecture.
 topic_tags:
-  - AI
-  - CUDA
-  - Blog
-  - Notes
-  - Engineering
+  - Computer Architecture
+  - PIM/PNM
+  - AI Accelerator
+  - Paper Reading
+  - Latest Work
+  - Studing Note
 ---

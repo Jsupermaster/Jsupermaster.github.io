@@ -3,12 +3,11 @@ title: 博客模板结构说明
 date: 2026-04-18 20:00:00 +0800
 description: 说明当前博客模板的目录结构和维护方式。
 categories:
-  - Template
-  - Setup
+  - Computer Architecture
 tags:
+  - Computer Architecture
+  - Studing Note
   - Jekyll
-  - Blog
-  - Notes
 article_kicker: TEMPLATE NOTE
 ---
 

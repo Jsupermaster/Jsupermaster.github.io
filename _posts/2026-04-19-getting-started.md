@@ -3,12 +3,11 @@ title: 我的第一篇 GitHub Pages 博客
 date: 2026-04-19 14:30:00 +0800
 description: 记录博客从纯静态页面切换为 Jekyll Markdown 系统的第一篇文章。
 categories:
-  - GitHub Pages
-  - Blog
+  - Latest Work
 tags:
+  - Latest Work
   - Jekyll
   - Markdown
-  - Setup
 article_kicker: BLOG POST
 ---
 
