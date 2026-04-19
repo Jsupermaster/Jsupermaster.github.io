@@ -251,18 +251,15 @@ img {
 }
 
 .home-hero-side {
-  display: grid;
-  gap: 16px;
-  width: 100%;
-  justify-items: center;
-}
-
-.home-floating-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 16px;
   width: 100%;
+}
+
+.home-floating-row {
+  display: contents;
 }
 
 .home-stat-card {
@@ -315,8 +312,8 @@ img {
 }
 
 .home-floating-card-wide {
-  width: min(848px, 100%);
-  margin: 0 auto;
+  width: auto;
+  max-width: 100%;
 }
 
 .action-stack-hero {
