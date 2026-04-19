@@ -315,7 +315,7 @@ img {
 }
 
 .home-floating-card-wide {
-  width: min(760px, 100%);
+  width: min(1408px, 100%);
   margin: 0 auto;
 }
 
