@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+{% assign featured_post = site.posts.first %}
 <section class="home-hero" style="background-image: linear-gradient(180deg, rgba(17, 29, 43, 0.44), rgba(17, 29, 43, 0.68)), url('{{ page.hero_background | relative_url }}');">
   <div class="home-hero-inner">
     <div class="home-hero-grid">
@@ -29,7 +30,7 @@ layout: default
             <span>次浏览</span>
           </div>
           <section class="home-floating-card">
-            <h3>Recent Posts</h3>
+            <h3>最近文章</h3>
             <div class="recent-list">
               {% for post in site.posts limit: 5 %}
               <a class="recent-link" href="{{ post.url | relative_url }}">
@@ -41,11 +42,11 @@ layout: default
           </section>
         </div>
         <section class="home-floating-card home-floating-card-wide">
-          <h3>Quick Links</h3>
+          <h3>快速链接</h3>
           <div class="action-stack action-stack-hero">
-            <a class="action-link" href="{{ '/blog/index.html' | relative_url }}">Browse Archive</a>
+            <a class="action-link" href="{{ '/blog/index.html' | relative_url }}">阅读全部文章</a>
             {% if featured_post %}
-            <a class="action-link" href="{{ featured_post.url | relative_url }}">Read Latest Post</a>
+            <a class="action-link" href="{{ featured_post.url | relative_url }}">阅读最新文章</a>
             {% endif %}
           </div>
         </section>
@@ -56,7 +57,6 @@ layout: default
 
 <div class="blog-layout blog-layout-single">
   <section class="post-feed">
-    {% assign featured_post = site.posts.first %}
     {% for post in site.posts limit: 8 %}
     <article class="feed-card {% if forloop.first %}feed-card-featured{% endif %}">
       <div class="feed-meta">

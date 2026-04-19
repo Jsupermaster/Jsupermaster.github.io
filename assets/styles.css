@@ -144,6 +144,8 @@ img {
 
 .has-immersive-hero .page-layout {
   padding-top: 0;
+  width: 100%;
+  margin: 0;
 }
 
 .home-intro,
@@ -164,10 +166,10 @@ img {
 
 .home-hero {
   position: relative;
-  width: min(96vw, 1880px);
+  width: 100%;
   min-height: 78vh;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
   margin-top: 0;
   margin-bottom: 30px;
   background-position: center;
@@ -193,11 +195,12 @@ img {
   margin: 0 auto;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 48px 0 42px;
 }
 
 .home-hero-grid {
-  width: min(980px, 100%);
+  width: min(1120px, 100%);
   margin: 0 auto;
   display: grid;
   gap: 26px;
@@ -207,7 +210,8 @@ img {
 
 .home-hero-main {
   color: #f7fbff;
-  max-width: 920px;
+  width: 100%;
+  max-width: 980px;
   text-align: center;
 }
 
@@ -249,7 +253,8 @@ img {
 .home-hero-side {
   display: grid;
   gap: 16px;
-  width: min(980px, 100%);
+  width: 100%;
+  justify-items: center;
 }
 
 .home-floating-row {
@@ -257,6 +262,7 @@ img {
   flex-wrap: wrap;
   justify-content: center;
   gap: 16px;
+  width: 100%;
 }
 
 .home-stat-card {
