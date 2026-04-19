@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ '/assets/styles.css?v=20260419i' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/styles.css?v=20260419j' | relative_url }}">
   <script defer src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
-<body class="{% if page.hero_background or page.cover_image %}has-immersive-hero{% endif %}"{% if page.hero_background or page.cover_image %} style="--hero-nav-bg: linear-gradient(180deg, rgba(17, 29, 43, 0.46), rgba(17, 29, 43, 0.7)), url('{% if page.hero_background %}{{ page.hero_background | relative_url }}{% else %}{{ page.cover_image | relative_url }}{% endif %}');"{% endif %}>
+<body class="{% if page.hero_background or page.cover_image %}has-immersive-hero{% endif %}">
   <div class="site-shell">
     <header class="topbar{% if page.hero_background or page.cover_image %} topbar-immersive{% endif %}">
       <div class="topbar-inner">

@@ -56,12 +56,10 @@ img {
   position: fixed;
   left: 0;
   right: 0;
-  background-image: var(--hero-nav-bg);
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-bottom-color: rgba(255, 255, 255, 0.06);
-  transition: background 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  background: linear-gradient(180deg, rgba(10, 18, 28, 0.22), rgba(10, 18, 28, 0.08));
+  border-bottom-color: transparent;
+  box-shadow: none;
+  transition: background 240ms ease, box-shadow 240ms ease, border-color 240ms ease, backdrop-filter 240ms ease;
 }
 
 .topbar-immersive.is-scrolled {
@@ -146,7 +144,18 @@ img {
   overflow: hidden;
 }
 
+.home-hero::before,
+.post-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 14, 22, 0.18) 0px, rgba(7, 14, 22, 0.28) 64px, rgba(17, 29, 43, 0.44) 180px, rgba(17, 29, 43, 0.68) 100%);
+  pointer-events: none;
+}
+
 .home-hero-inner {
+  position: relative;
+  z-index: 1;
   width: min(var(--content-width), calc(100% - 40px));
   min-height: 78vh;
   margin: 0 auto;
@@ -535,6 +544,8 @@ img {
 }
 
 .post-hero-inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
