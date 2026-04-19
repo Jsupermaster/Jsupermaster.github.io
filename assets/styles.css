@@ -394,21 +394,26 @@ img {
 
 .post-hero {
   position: relative;
-  min-height: 420px;
-  border-radius: 24px;
+  width: 100vw;
+  min-height: 78vh;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  border-radius: 0;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
-  box-shadow: var(--shadow);
+  box-shadow: none;
 }
 
 .post-hero-inner {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 420px;
-  padding: 34px 36px;
+  width: min(var(--content-width), calc(100% - 40px));
+  min-height: 78vh;
+  margin: 0 auto;
+  padding: 48px 0 42px;
   color: #f7fbff;
 }
 
@@ -559,11 +564,12 @@ img {
 
   .post-hero,
   .post-hero-inner {
-    min-height: 320px;
+    min-height: 52vh;
   }
 
   .post-hero-inner {
-    padding: 22px 20px;
+    width: calc(100% - 20px);
+    padding: 24px 0 22px;
   }
 
   .panel-heading {

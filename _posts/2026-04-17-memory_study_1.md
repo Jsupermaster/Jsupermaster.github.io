@@ -20,6 +20,8 @@ read_time: 约 19 分钟
 
 一个常见的系统：
 
+![DRAM system overview]({{ '/assets/images/mem_study/image-20260411165806485.png' | relative_url }})
+
 ## 1.1 DRAM的层级
 
 ![DRAM hierarchy]({{ '/assets/images/mem_study/image-20260411191132250.png' | relative_url }})
