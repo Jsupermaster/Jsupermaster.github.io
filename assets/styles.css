@@ -560,6 +560,16 @@ img {
   line-height: 1.8;
 }
 
+.tag-section-list,
+.tag-post-list {
+  display: grid;
+  gap: 18px;
+}
+
+.tag-section {
+  scroll-margin-top: 92px;
+}
+
 .sidebar,
 .post-side {
   display: grid;
