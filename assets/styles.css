@@ -416,6 +416,8 @@ img {
 
 .blog-layout-single {
   grid-template-columns: 1fr;
+  width: min(980px, calc(100% - 32px));
+  margin: 0 auto;
 }
 
 .post-feed,
