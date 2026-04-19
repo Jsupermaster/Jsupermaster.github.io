@@ -252,22 +252,29 @@ img {
 
 .home-hero-side {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: stretch;
-  gap: 12px;
   width: 100%;
 }
 
-.home-floating-row {
-  display: contents;
+.home-dashboard {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(320px, 1fr);
+  gap: 16px;
+  width: min(860px, 100%);
+  align-items: stretch;
 }
 
-.home-stat-card {
+.home-stats-stack {
   display: grid;
-  gap: 6px;
-  flex: 1 1 168px;
-  min-width: 168px;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  min-height: 302px;
+}
+
+.home-stat-card,
+.home-floating-card {
+  display: grid;
   padding: 18px 22px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 18px;
@@ -275,7 +282,13 @@ img {
   box-shadow: 0 16px 38px rgba(0, 0, 0, 0.14);
   backdrop-filter: blur(18px);
   color: #ffffff;
-  text-align: center;
+}
+
+.home-stat-card {
+  gap: 6px;
+  min-height: 90px;
+  align-content: center;
+  text-align: left;
 }
 
 .home-stat-card strong {
@@ -289,17 +302,8 @@ img {
 }
 
 .home-floating-card {
-  display: grid;
   gap: 12px;
-  flex: 1 1 236px;
-  min-width: 236px;
-  padding: 18px 22px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.14);
-  backdrop-filter: blur(18px);
-  color: #ffffff;
+  min-height: 302px;
 }
 
 .home-floating-card h3 {
@@ -314,9 +318,8 @@ img {
   color: rgba(241, 247, 255, 0.92);
 }
 
-.home-floating-card-wide {
-  width: auto;
-  max-width: 100%;
+.home-recent-card {
+  min-width: 0;
 }
 
 .action-stack-hero {
@@ -860,6 +863,10 @@ img {
   .topic-grid {
     grid-template-columns: 1fr;
   }
+
+  .home-dashboard {
+    width: 100%;
+  }
 }
 
 @media (max-width: 760px) {
@@ -901,14 +908,22 @@ img {
     padding: 24px 0 22px;
   }
 
-  .home-stat-card {
-    min-width: 150px;
-    width: calc(50% - 8px);
+  .home-dashboard {
+    grid-template-columns: 1fr;
   }
 
-  .home-floating-card {
-    width: 100%;
-    min-width: 0;
+  .home-stats-stack,
+  .home-recent-card {
+    min-height: 0;
+  }
+
+  .home-floating-card,
+  .home-recent-card {
+    min-height: 0;
+  }
+
+  .home-stat-card {
+    min-height: 82px;
   }
 
   .post-hero,
@@ -924,11 +939,5 @@ img {
   .panel-heading {
     flex-direction: column;
     align-items: flex-start;
-  }
-}
-
-@media (max-width: 520px) {
-  .home-stat-card {
-    width: 100%;
   }
 }

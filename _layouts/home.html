@@ -1,7 +1,6 @@
 ---
 layout: default
 ---
-{% assign featured_post = site.posts.first %}
 <section class="home-hero" style="background-image: linear-gradient(180deg, rgba(17, 29, 43, 0.44), rgba(17, 29, 43, 0.68)), url('{{ page.hero_background | relative_url }}');">
   <div class="home-hero-inner">
     <div class="home-hero-grid">
@@ -16,20 +15,22 @@ layout: default
         </div>
       </div>
       <div class="home-hero-side">
-        <div class="home-floating-row">
-          <div class="home-stat-card">
-            <strong>{{ site.posts | size }}</strong>
-            <span>篇文章</span>
+        <div class="home-dashboard">
+          <div class="home-stats-stack">
+            <div class="home-stat-card home-stat-card-mini">
+              <strong>{{ site.posts | size }}</strong>
+              <span>篇文章</span>
+            </div>
+            <div class="home-stat-card home-stat-card-mini">
+              <strong id="busuanzi_value_site_uv">-</strong>
+              <span>位访客</span>
+            </div>
+            <div class="home-stat-card home-stat-card-mini">
+              <strong id="busuanzi_value_site_pv">-</strong>
+              <span>次浏览</span>
+            </div>
           </div>
-          <div class="home-stat-card">
-            <strong id="busuanzi_value_site_uv">-</strong>
-            <span>位访客</span>
-          </div>
-          <div class="home-stat-card">
-            <strong id="busuanzi_value_site_pv">-</strong>
-            <span>次浏览</span>
-          </div>
-          <section class="home-floating-card">
+          <section class="home-floating-card home-recent-card">
             <h3>最近文章</h3>
             <div class="recent-list">
               {% for post in site.posts limit: 5 %}
@@ -41,15 +42,6 @@ layout: default
             </div>
           </section>
         </div>
-        <section class="home-floating-card home-floating-card-wide">
-          <h3>快速链接</h3>
-          <div class="action-stack action-stack-hero">
-            <a class="action-link" href="{{ '/blog/index.html' | relative_url }}">阅读全部文章</a>
-            {% if featured_post %}
-            <a class="action-link" href="{{ featured_post.url | relative_url }}">阅读最新文章</a>
-            {% endif %}
-          </div>
-        </section>
       </div>
     </div>
   </div>
