@@ -52,6 +52,24 @@ img {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.topbar-immersive {
+  position: fixed;
+  left: 0;
+  right: 0;
+  background-image: var(--hero-nav-bg);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+  transition: background 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.topbar-immersive.is-scrolled {
+  background: linear-gradient(180deg, rgba(12, 24, 39, 0.94), rgba(18, 34, 52, 0.88));
+  box-shadow: 0 12px 30px rgba(6, 12, 20, 0.18);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
 .topbar-inner,
 .page-layout {
   width: min(var(--content-width), calc(100% - 32px));
@@ -94,6 +112,10 @@ img {
   padding: 30px 0 56px;
 }
 
+.has-immersive-hero .page-layout {
+  padding-top: 0;
+}
+
 .home-intro,
 .archive-header {
   margin-bottom: 26px;
@@ -116,6 +138,7 @@ img {
   min-height: 78vh;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
+  margin-top: 0;
   margin-bottom: 30px;
   background-position: center;
   background-repeat: no-repeat;
@@ -502,6 +525,7 @@ img {
   min-height: 78vh;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
+  margin-top: 0;
   border-radius: 0;
   background-position: center;
   background-repeat: no-repeat;
@@ -647,6 +671,10 @@ img {
 @media (max-width: 760px) {
   .topbar {
     position: static;
+  }
+
+  .topbar-immersive {
+    position: fixed;
   }
 
   .topbar-inner {
