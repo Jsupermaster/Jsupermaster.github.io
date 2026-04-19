@@ -766,6 +766,14 @@ img {
   text-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
+.post-hero-copy {
+  width: min(760px, 100%);
+  margin: 16px 0 0;
+  color: rgba(241, 247, 255, 0.9);
+  line-height: 1.9;
+  font-size: 1rem;
+}
+
 .post-hero-meta,
 .post-hero-stats {
   display: flex;
@@ -777,6 +785,10 @@ img {
 .post-hero-meta {
   margin-top: 16px;
   color: rgba(241, 247, 255, 0.9);
+}
+
+.post-header-simple .feed-meta {
+  margin-top: 18px;
 }
 
 .post-hero-stats {

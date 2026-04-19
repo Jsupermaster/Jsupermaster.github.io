@@ -7,6 +7,9 @@ layout: default
     <div class="post-hero-inner">
       <p class="section-kicker post-hero-kicker">{{ page.article_kicker | default: "BLOG POST" }}</p>
       <h1>{{ page.title }}</h1>
+      {% if page.description %}
+      <p class="post-hero-copy">{{ page.description }}</p>
+      {% endif %}
       <div class="post-hero-meta">
         <span>{{ page.date | date: "%Y-%m-%d" }}</span>
         {% for category in page.categories %}
@@ -21,6 +24,26 @@ layout: default
         <span>{{ page.read_time }}</span>
         {% endif %}
       </div>
+    </div>
+  </section>
+  {% else %}
+  <section class="archive-header post-header-simple">
+    <p class="section-kicker">{{ page.article_kicker | default: "BLOG POST" }}</p>
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}
+    <p class="archive-copy">{{ page.description }}</p>
+    {% endif %}
+    <div class="feed-meta">
+      <span>{{ page.date | date: "%Y-%m-%d" }}</span>
+      {% for category in page.categories %}
+      <span>{{ category }}</span>
+      {% endfor %}
+      {% if page.word_count %}
+      <span>{{ page.word_count }}</span>
+      {% endif %}
+      {% if page.read_time %}
+      <span>{{ page.read_time }}</span>
+      {% endif %}
     </div>
   </section>
   {% endif %}
