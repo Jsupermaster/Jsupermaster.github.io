@@ -1,31 +1,30 @@
 ---
 layout: default
 ---
-<section class="hero-banner hero-banner-small">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <p class="hero-kicker">{{ page.hero_kicker }}</p>
-    <h1>{{ page.hero_title }}</h1>
-    <p class="hero-subtitle">{{ page.hero_subtitle }}</p>
-  </div>
+<section class="archive-header">
+  <p class="section-kicker">{{ page.hero_kicker }}</p>
+  <h1>{{ page.hero_title }}</h1>
+  <p class="archive-copy">{{ page.hero_subtitle }}</p>
 </section>
 
 <div class="archive-list">
   {% for post in site.posts %}
-  <article class="post-card">
-    <div class="post-card-body">
-      <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
-      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-      <p class="post-excerpt">{{ post.excerpt | strip_html | strip_newlines }}</p>
-      <div class="post-taxonomy">
-        {% for category in post.categories limit: 2 %}
-        <span class="pill">{{ category }}</span>
-        {% endfor %}
-        {% for tag in post.tags limit: 2 %}
-        <span class="pill">{{ tag }}</span>
+  <article class="feed-card">
+    <div class="feed-meta">
+      <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+      {% if post.categories.size > 0 %}
+      <span>{{ post.categories | join: " / " }}</span>
+      {% endif %}
+    </div>
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    <p class="feed-excerpt">{{ post.excerpt | strip_html | strip_newlines }}</p>
+    <div class="feed-footer">
+      <div class="chip-row">
+        {% for tag in post.tags limit: 3 %}
+        <span class="chip">#{{ tag }}</span>
         {% endfor %}
       </div>
-      <a class="read-more" href="{{ post.url | relative_url }}">阅读全文</a>
+      <a class="read-link" href="{{ post.url | relative_url }}">阅读全文</a>
     </div>
   </article>
   {% endfor %}

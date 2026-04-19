@@ -1,69 +1,65 @@
 ---
 layout: default
 ---
-<section class="hero-banner">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <p class="hero-kicker">{{ page.hero_kicker }}</p>
+<section class="home-intro">
+  <div class="intro-main">
+    <p class="section-kicker">{{ page.hero_kicker }}</p>
     <h1>{{ page.hero_title }}</h1>
-    <p class="hero-subtitle">{{ page.hero_subtitle }}</p>
-    <div class="hero-meta">
+    <p class="intro-copy">{{ page.hero_subtitle }}</p>
+    <div class="intro-tags">
       {% for item in page.hero_meta %}
       <span>{{ item }}</span>
       {% endfor %}
     </div>
   </div>
+  <div class="intro-side">
+    <div class="mini-stat">
+      <strong>{{ site.posts | size }}</strong>
+      <span>篇文章</span>
+    </div>
+    <div class="mini-stat">
+      <strong>{{ site.categories | size }}</strong>
+      <span>个分类</span>
+    </div>
+    <div class="mini-stat">
+      <strong>{{ site.tags | size }}</strong>
+      <span>个标签</span>
+    </div>
+  </div>
 </section>
 
-<div class="content-layout">
-  <section class="main-column">
+<div class="blog-layout">
+  <section class="post-feed">
     {% assign featured_post = site.posts.first %}
-    {% if featured_post %}
-    <article class="post-card post-card-featured">
-      <div class="post-card-body">
-        <p class="post-date">{{ featured_post.date | date: "%Y-%m-%d" }}</p>
-        <h2><a href="{{ featured_post.url | relative_url }}">{{ featured_post.title }}</a></h2>
-        <p class="post-excerpt">{{ featured_post.excerpt | strip_html | strip_newlines }}</p>
-        <div class="post-taxonomy">
-          {% for category in featured_post.categories limit: 3 %}
-          <span class="pill">{{ category }}</span>
-          {% endfor %}
-          {% for tag in featured_post.tags limit: 2 %}
-          <span class="pill">{{ tag }}</span>
-          {% endfor %}
-        </div>
-        <a class="read-more" href="{{ featured_post.url | relative_url }}">阅读全文</a>
+    {% for post in site.posts limit: 8 %}
+    <article class="feed-card {% if forloop.first %}feed-card-featured{% endif %}">
+      <div class="feed-meta">
+        <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+        {% if post.categories.size > 0 %}
+        <span>{{ post.categories | join: " / " }}</span>
+        {% endif %}
       </div>
-    </article>
-    {% endif %}
-
-    {% for post in site.posts offset: 1 limit: 4 %}
-    <article class="post-card">
-      <div class="post-card-body">
-        <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
-        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <p class="post-excerpt">{{ post.excerpt | strip_html | strip_newlines }}</p>
-        <div class="post-taxonomy">
-          {% for category in post.categories limit: 2 %}
-          <span class="pill">{{ category }}</span>
-          {% endfor %}
-          {% for tag in post.tags limit: 2 %}
-          <span class="pill">{{ tag }}</span>
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      <p class="feed-excerpt">{{ post.excerpt | strip_html | strip_newlines }}</p>
+      <div class="feed-footer">
+        <div class="chip-row">
+          {% for tag in post.tags limit: 3 %}
+          <span class="chip">#{{ tag }}</span>
           {% endfor %}
         </div>
-        <a class="read-more" href="{{ post.url | relative_url }}">阅读全文</a>
+        <a class="read-link" href="{{ post.url | relative_url }}">阅读全文</a>
       </div>
     </article>
     {% endfor %}
 
-    <section class="section-panel" id="topics">
-      <div class="section-title-row">
+    <section class="panel-block" id="topics">
+      <div class="panel-heading">
         <h3>分类</h3>
-        <span>现在先预留几类常用方向</span>
+        <span>当前内容方向</span>
       </div>
-      <div class="category-grid">
+      <div class="topic-grid">
         {% for topic in page.topics %}
-        <a class="category-card" href="{{ topic.href | relative_url }}">
+        <a class="topic-card" href="{{ topic.href | relative_url }}">
           <strong>{{ topic.title }}</strong>
           <span>{{ topic.description }}</span>
         </a>
@@ -73,12 +69,12 @@ layout: default
   </section>
 
   <aside class="sidebar">
-    <section class="sidebar-card" id="about">
+    <section class="side-card" id="about">
       <h3>关于我</h3>
       <p>{{ page.about_text }}</p>
     </section>
 
-    <section class="sidebar-card">
+    <section class="side-card">
       <h3>站点信息</h3>
       <ul class="meta-list">
         <li><span>名称</span><strong>{{ site.title }}</strong></li>
@@ -87,7 +83,7 @@ layout: default
       </ul>
     </section>
 
-    <section class="sidebar-card" id="tags">
+    <section class="side-card" id="tags">
       <h3>标签</h3>
       <div class="tag-cloud">
         {% for tag in page.topic_tags %}
@@ -96,7 +92,19 @@ layout: default
       </div>
     </section>
 
-    <section class="sidebar-card">
+    <section class="side-card">
+      <h3>最近文章</h3>
+      <div class="recent-list">
+        {% for post in site.posts limit: 5 %}
+        <a class="recent-link" href="{{ post.url | relative_url }}">
+          <strong>{{ post.title }}</strong>
+          <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="side-card">
       <h3>快速入口</h3>
       <div class="action-stack">
         <a class="action-link" href="{{ '/blog/index.html' | relative_url }}">查看全部文章</a>

@@ -1,29 +1,29 @@
 ---
 layout: default
 ---
-<article class="article-layout">
-  <div class="article-main">
-    <p class="article-kicker">{{ page.article_kicker | default: "BLOG POST" }}</p>
+<article class="post-layout">
+  <div class="post-main">
+    <p class="section-kicker">{{ page.article_kicker | default: "BLOG POST" }}</p>
     <h1>{{ page.title }}</h1>
-    <div class="article-meta">
+    <div class="post-header-meta">
       <span>{{ page.date | date: "%Y-%m-%d" }}</span>
       {% for category in page.categories %}
       <span>{{ category }}</span>
       {% endfor %}
     </div>
 
-    <div class="article-content">
+    <div class="post-content">
       {{ content }}
     </div>
 
-    <div class="article-actions">
-      <a class="read-more" href="{{ '/blog/index.html' | relative_url }}">返回归档</a>
-      <a class="read-more" href="{{ '/' | relative_url }}">返回首页</a>
+    <div class="post-actions">
+      <a class="read-link" href="{{ '/blog/index.html' | relative_url }}">返回归档</a>
+      <a class="read-link" href="{{ '/' | relative_url }}">返回首页</a>
     </div>
   </div>
 
-  <aside class="article-sidebar">
-    <section class="sidebar-card">
+  <aside class="post-side">
+    <section class="side-card">
       <h3>文章信息</h3>
       <ul class="meta-list">
         <li><span>日期</span><strong>{{ page.date | date: "%Y-%m-%d" }}</strong></li>
@@ -33,7 +33,7 @@ layout: default
       </ul>
     </section>
 
-    <section class="sidebar-card">
+    <section class="side-card">
       <h3>继续阅读</h3>
       <div class="action-stack">
         <a class="action-link" href="{{ '/blog/index.html' | relative_url }}">查看文章归档</a>
