@@ -48,6 +48,13 @@ layout: default
   </section>
   {% endif %}
 
+  <aside id="post-toc" class="post-toc" hidden aria-label="文章目录">
+    <div class="post-toc-inner">
+      <p class="post-toc-kicker">目录</p>
+      <nav id="post-toc-nav" class="post-toc-nav"></nav>
+    </div>
+  </aside>
+
   <div class="post-main post-main-single post-main-body">
     <div class="post-content">
       {{ content }}
@@ -59,3 +66,86 @@ layout: default
     </div>
   </div>
 </article>
+
+<script>
+  (() => {
+    const toc = document.getElementById('post-toc');
+    const tocNav = document.getElementById('post-toc-nav');
+    const content = document.querySelector('.post-content');
+    if (!toc || !tocNav || !content) return;
+
+    const headings = Array.from(content.querySelectorAll('h2, h3, h4'))
+      .filter(item => item.textContent.trim());
+
+    if (!headings.length) return;
+
+    const slugify = (text) => text
+      .trim()
+      .toLowerCase()
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^\p{Letter}\p{Number}\u4e00-\u9fff\s-]/gu, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
+
+    const usedIds = new Map();
+    const items = headings.map((heading) => {
+      if (!heading.id) {
+        const baseId = slugify(heading.textContent) || 'section';
+        const seen = usedIds.get(baseId) || 0;
+        usedIds.set(baseId, seen + 1);
+        heading.id = seen ? `${baseId}-${seen + 1}` : baseId;
+      }
+
+      heading.classList.add('post-heading-anchor');
+
+      return {
+        id: heading.id,
+        title: heading.textContent.trim(),
+        level: Number(heading.tagName.slice(1))
+      };
+    });
+
+    tocNav.innerHTML = items.map((item) => `
+      <a class="post-toc-link level-${item.level}" href="#${item.id}">${item.title}</a>
+    `).join('');
+
+    toc.hidden = false;
+
+    const tocLinks = Array.from(tocNav.querySelectorAll('.post-toc-link'));
+    const linkById = new Map(tocLinks.map(link => [decodeURIComponent(link.hash.slice(1)), link]));
+
+    const setActive = (id) => {
+      tocLinks.forEach(link => {
+        link.classList.toggle('is-active', decodeURIComponent(link.hash.slice(1)) === id);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+      if (visible.length) {
+        setActive(visible[0].target.id);
+        return;
+      }
+
+      const passed = entries
+        .filter(entry => entry.boundingClientRect.top < 140)
+        .sort((a, b) => b.boundingClientRect.top - a.boundingClientRect.top);
+
+      if (passed.length) setActive(passed[0].target.id);
+    }, {
+      rootMargin: '-18% 0px -65% 0px',
+      threshold: [0, 1]
+    });
+
+    headings.forEach(heading => observer.observe(heading));
+
+    const initial = items[0];
+    if (initial && linkById.has(initial.id)) {
+      setActive(initial.id);
+    }
+  })();
+</script>
