@@ -15,16 +15,17 @@ permalink: /search.json
     }
     {% assign first = false %}
   {% endfor %}
-  {% assign page_docs = site.pages | where_exp: "p", "p.title and p.url != '/search.json'" %}
-  {% for p in page_docs %}
-    {% unless first %},{% endunless %}
-    {
-      "title": {{ p.title | jsonify }},
-      "url": {{ p.url | relative_url | jsonify }},
-      "kind": "Page",
-      "meta": {{ p.description | default: p.title | jsonify }},
-      "excerpt": {{ p.content | strip_html | strip_newlines | jsonify }}
-    }
-    {% assign first = false %}
+  {% for p in site.pages %}
+    {% if p.title and p.url != '/search.json' %}
+      {% unless first %},{% endunless %}
+      {
+        "title": {{ p.title | jsonify }},
+        "url": {{ p.url | relative_url | jsonify }},
+        "kind": "Page",
+        "meta": {{ p.description | default: p.title | jsonify }},
+        "excerpt": {{ p.content | strip_html | strip_newlines | jsonify }}
+      }
+      {% assign first = false %}
+    {% endif %}
   {% endfor %}
 ]
