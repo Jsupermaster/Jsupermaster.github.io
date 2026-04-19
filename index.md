@@ -6,6 +6,7 @@ description: Jsupermaster 的个人博客首页。
 hero_kicker: WELCOME TO JSUPERMASTER'S BLOG
 hero_title: "技术改变世界。<br>Technology changes the world."
 hero_subtitle: 持续关注体系结构与芯片设计最新进展。Keep track of the latest developments in architecture and chip design.
+hero_background: /assets/images/site/home-hero.jpg
 hero_meta:
   - 学习日志
   - 最新工作

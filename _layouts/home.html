@@ -1,29 +1,33 @@
 ---
 layout: default
 ---
-<section class="home-intro">
-  <div class="intro-main">
-    <p class="section-kicker">{{ page.hero_kicker }}</p>
-    <h1>{{ page.hero_title }}</h1>
-    <p class="intro-copy">{{ page.hero_subtitle }}</p>
-    <div class="intro-tags">
-      {% for item in page.hero_meta %}
-      <span>{{ item }}</span>
-      {% endfor %}
-    </div>
-  </div>
-  <div class="intro-side">
-    <div class="mini-stat">
-      <strong>{{ site.posts | size }}</strong>
-      <span>篇文章</span>
-    </div>
-    <div class="mini-stat">
-      <strong id="busuanzi_value_site_uv">-</strong>
-      <span>位访客</span>
-    </div>
-    <div class="mini-stat">
-      <strong id="busuanzi_value_site_pv">-</strong>
-      <span>次浏览</span>
+<section class="home-hero" style="background-image: linear-gradient(180deg, rgba(17, 29, 43, 0.44), rgba(17, 29, 43, 0.68)), url('{{ page.hero_background | relative_url }}');">
+  <div class="home-hero-inner">
+    <div class="home-hero-grid">
+      <div class="home-hero-main">
+        <p class="section-kicker home-hero-kicker">{{ page.hero_kicker }}</p>
+        <h1>{{ page.hero_title }}</h1>
+        <p class="home-hero-copy">{{ page.hero_subtitle }}</p>
+        <div class="home-hero-tags">
+          {% for item in page.hero_meta %}
+          <span>{{ item }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="home-hero-side">
+        <div class="home-stat-card">
+          <strong>{{ site.posts | size }}</strong>
+          <span>篇文章</span>
+        </div>
+        <div class="home-stat-card">
+          <strong id="busuanzi_value_site_uv">-</strong>
+          <span>位访客</span>
+        </div>
+        <div class="home-stat-card">
+          <strong id="busuanzi_value_site_pv">-</strong>
+          <span>次浏览</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>

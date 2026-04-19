@@ -109,6 +109,100 @@ img {
   padding: 30px 32px;
 }
 
+.home-hero {
+  position: relative;
+  width: 100vw;
+  min-height: 78vh;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-bottom: 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.home-hero-inner {
+  width: min(var(--content-width), calc(100% - 40px));
+  min-height: 78vh;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  padding: 48px 0 42px;
+}
+
+.home-hero-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) 320px;
+  gap: 28px;
+  align-items: end;
+}
+
+.home-hero-main {
+  color: #f7fbff;
+}
+
+.home-hero-kicker {
+  color: rgba(241, 247, 255, 0.88);
+}
+
+.home-hero-main h1 {
+  color: #ffffff;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.home-hero-copy {
+  margin: 18px 0 0;
+  color: rgba(241, 247, 255, 0.9);
+  line-height: 1.9;
+  font-size: 1rem;
+}
+
+.home-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.home-hero-tags span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+}
+
+.home-hero-side {
+  display: grid;
+  gap: 14px;
+}
+
+.home-stat-card {
+  display: grid;
+  gap: 6px;
+  padding: 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  color: #ffffff;
+}
+
+.home-stat-card strong {
+  font-size: 1.45rem;
+  font-family: "Noto Serif SC", serif;
+}
+
+.home-stat-card span {
+  color: rgba(241, 247, 255, 0.88);
+  font-size: 0.92rem;
+}
+
 .archive-header {
   padding: 28px 32px;
 }
@@ -532,6 +626,10 @@ img {
     grid-template-columns: 1fr;
   }
 
+  .home-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
   .topic-grid {
     grid-template-columns: 1fr;
   }
@@ -560,6 +658,16 @@ img {
   .side-card,
   .post-main {
     padding: 18px;
+  }
+
+  .home-hero,
+  .home-hero-inner {
+    min-height: 56vh;
+  }
+
+  .home-hero-inner {
+    width: calc(100% - 20px);
+    padding: 24px 0 22px;
   }
 
   .post-hero,
