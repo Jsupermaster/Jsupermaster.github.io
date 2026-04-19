@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="{{ site.lang | default: 'zh-CN' }}">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ '/assets/styles.css?v=20260419j' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/styles.css?v=20260419m' | relative_url }}">
   <script defer src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
 <body class="{% if page.hero_background or page.cover_image %}has-immersive-hero{% endif %}">
@@ -17,11 +17,29 @@
       <div class="topbar-inner">
         <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
         <nav class="topnav">
-          <a class="{% if page.nav == 'home' %}is-active{% endif %}" href="{{ '/' | relative_url }}">首页</a>
-          <a class="{% if page.nav == 'archive' %}is-active{% endif %}" href="{{ '/blog/index.html' | relative_url }}">归档</a>
-          <a href="{{ '/' | relative_url }}#topics">分类</a>
-          <a href="{{ '/' | relative_url }}#tags">标签</a>
-          <a href="{{ '/' | relative_url }}#about">关于</a>
+          <a class="nav-link {% if page.nav == 'home' %}is-active{% endif %}" href="{{ '/' | relative_url }}">
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 2.4 10.8l1.2 1.5L5 11.2V20h5v-5h4v5h5v-8.8l1.4 1.1 1.2-1.5z"/></svg></span>
+            <span>首页</span>
+          </a>
+          <a class="nav-link {% if page.nav == 'archive' %}is-active{% endif %}" href="{{ '/blog/index.html' | relative_url }}">
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v4H4zm1 6h14v10H5zm3 2v2h8v-2z"/></svg></span>
+            <span>归档</span>
+          </a>
+          <a class="nav-link {% if page.nav == 'categories' %}is-active{% endif %}" href="{{ '/categories/index.html' | relative_url }}">
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h7v7H4zm9 0h7v7h-7zM4 13h7v7H4zm9 0h7v7h-7z"/></svg></span>
+            <span>分类</span>
+          </a>
+          <a class="nav-link {% if page.nav == 'tags' %}is-active{% endif %}" href="{{ '/tags/index.html' | relative_url }}">
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.6 3H4v6.6L13.4 19 20 12.4zM7.5 8A1.5 1.5 0 1 1 9 6.5 1.5 1.5 0 0 1 7.5 8"/></svg></span>
+            <span>标签</span>
+          </a>
+          <a class="nav-link {% if page.nav == 'about' %}is-active{% endif %}" href="{{ '/about/index.html' | relative_url }}">
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4m0 2c-4.4 0-8 2.2-8 5v1h16v-1c0-2.8-3.6-5-8-5"/></svg></span>
+            <span>关于</span>
+          </a>
+          <button class="nav-link nav-link-icon search-trigger" type="button" aria-label="搜索" aria-haspopup="dialog" aria-controls="search-modal">
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 4a6 6 0 1 0 3.9 10.6l4.7 4.7 1.4-1.4-4.7-4.7A6 6 0 0 0 10 4m0 2a4 4 0 1 1-4 4 4 4 0 0 1 4-4"/></svg></span>
+          </button>
         </nav>
       </div>
     </header>
@@ -29,6 +47,19 @@
     <main class="page-layout">
       {{ content }}
     </main>
+  </div>
+  <div id="search-modal" class="search-modal" hidden>
+    <div class="search-backdrop" data-close-search="true"></div>
+    <div class="search-dialog" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
+      <div class="search-dialog-header">
+        <h2 id="search-modal-title">Search</h2>
+        <button class="search-close" type="button" aria-label="Close search" data-close-search="true">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <input id="global-search-input" class="search-input" type="search" placeholder="Search titles, tags, categories, summaries..." autocomplete="off">
+      <div id="global-search-results" class="search-results"></div>
+    </div>
   </div>
   {% if page.hero_background or page.cover_image %}
   <script>
@@ -49,5 +80,76 @@
     })();
   </script>
   {% endif %}
+  <script>
+    (() => {
+      const modal = document.getElementById('search-modal');
+      const input = document.getElementById('global-search-input');
+      const results = document.getElementById('global-search-results');
+      const trigger = document.querySelector('.search-trigger');
+      if (!modal || !input || !results || !trigger) return;
+
+      let items = [];
+      let loaded = false;
+
+      const render = (matches, query) => {
+        if (!query) {
+          results.innerHTML = '<p class="search-empty">Type something to search posts and pages.</p>';
+          return;
+        }
+        if (!matches.length) {
+          results.innerHTML = '<p class="search-empty">No matching content found.</p>';
+          return;
+        }
+
+        results.innerHTML = matches.slice(0, 12).map(item => `
+          <a class="search-result-card" href="${item.url}">
+            <strong>${item.title}</strong>
+            <span>${item.kind}</span>
+            <p>${item.meta}</p>
+          </a>
+        `).join('');
+      };
+
+      const openSearch = () => {
+        modal.hidden = false;
+        document.body.classList.add('search-open');
+        if (!loaded) {
+          fetch('{{ "/search.json" | relative_url }}')
+            .then(res => res.json())
+            .then(data => {
+              items = data;
+              loaded = true;
+              render([], '');
+            });
+        } else {
+          render([], '');
+        }
+        input.value = '';
+        requestAnimationFrame(() => input.focus());
+      };
+
+      const closeSearch = () => {
+        modal.hidden = true;
+        document.body.classList.remove('search-open');
+      };
+
+      trigger.addEventListener('click', openSearch);
+      modal.addEventListener('click', event => {
+        if (event.target.closest('[data-close-search="true"]')) closeSearch();
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !modal.hidden) closeSearch();
+      });
+      input.addEventListener('input', () => {
+        const query = input.value.trim().toLowerCase();
+        const matches = items.filter(item =>
+          item.title.toLowerCase().includes(query) ||
+          item.meta.toLowerCase().includes(query) ||
+          item.excerpt.toLowerCase().includes(query)
+        );
+        render(matches, query);
+      });
+    })();
+  </script>
 </body>
 </html>

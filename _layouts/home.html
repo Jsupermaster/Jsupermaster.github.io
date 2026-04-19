@@ -15,24 +15,46 @@ layout: default
         </div>
       </div>
       <div class="home-hero-side">
-        <div class="home-stat-card">
-          <strong>{{ site.posts | size }}</strong>
-          <span>篇文章</span>
+        <div class="home-floating-row">
+          <div class="home-stat-card">
+            <strong>{{ site.posts | size }}</strong>
+            <span>篇文章</span>
+          </div>
+          <div class="home-stat-card">
+            <strong id="busuanzi_value_site_uv">-</strong>
+            <span>位访客</span>
+          </div>
+          <div class="home-stat-card">
+            <strong id="busuanzi_value_site_pv">-</strong>
+            <span>次浏览</span>
+          </div>
+          <section class="home-floating-card">
+            <h3>Recent Posts</h3>
+            <div class="recent-list">
+              {% for post in site.posts limit: 5 %}
+              <a class="recent-link" href="{{ post.url | relative_url }}">
+                <strong>{{ post.title }}</strong>
+                <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+              </a>
+              {% endfor %}
+            </div>
+          </section>
         </div>
-        <div class="home-stat-card">
-          <strong id="busuanzi_value_site_uv">-</strong>
-          <span>位访客</span>
-        </div>
-        <div class="home-stat-card">
-          <strong id="busuanzi_value_site_pv">-</strong>
-          <span>次浏览</span>
-        </div>
+        <section class="home-floating-card home-floating-card-wide">
+          <h3>Quick Links</h3>
+          <div class="action-stack action-stack-hero">
+            <a class="action-link" href="{{ '/blog/index.html' | relative_url }}">Browse Archive</a>
+            {% if featured_post %}
+            <a class="action-link" href="{{ featured_post.url | relative_url }}">Read Latest Post</a>
+            {% endif %}
+          </div>
+        </section>
       </div>
     </div>
   </div>
 </section>
 
-<div class="blog-layout">
+<div class="blog-layout blog-layout-single">
   <section class="post-feed">
     {% assign featured_post = site.posts.first %}
     {% for post in site.posts limit: 8 %}
@@ -61,66 +83,5 @@ layout: default
     </article>
     {% endfor %}
 
-    <section class="panel-block" id="topics">
-      <div class="panel-heading">
-        <h3>分类</h3>
-        <span>当前内容方向</span>
-      </div>
-      <div class="topic-grid">
-        {% for topic in page.topics %}
-        <a class="topic-card" href="{{ topic.href | relative_url }}">
-          <strong>{{ topic.title }}</strong>
-          <span>{{ topic.description }}</span>
-        </a>
-        {% endfor %}
-      </div>
-    </section>
   </section>
-
-  <aside class="sidebar">
-    <section class="side-card" id="about">
-      <h3>关于我</h3>
-      <p>{{ page.about_text }}</p>
-    </section>
-
-    <section class="side-card">
-      <h3>站点信息</h3>
-      <ul class="meta-list">
-        <li><span>名称</span><strong>{{ site.title }}</strong></li>
-        <li><span>平台</span><strong>GitHub Pages + Jekyll</strong></li>
-        <li><span>文章数</span><strong>{{ site.posts | size }}</strong></li>
-      </ul>
-    </section>
-
-    <section class="side-card" id="tags">
-      <h3>标签</h3>
-      <div class="tag-cloud">
-        {% for tag in page.topic_tags %}
-        <a href="{{ '/blog/index.html' | relative_url }}">#{{ tag }}</a>
-        {% endfor %}
-      </div>
-    </section>
-
-    <section class="side-card">
-      <h3>最近文章</h3>
-      <div class="recent-list">
-        {% for post in site.posts limit: 5 %}
-        <a class="recent-link" href="{{ post.url | relative_url }}">
-          <strong>{{ post.title }}</strong>
-          <span>{{ post.date | date: "%Y-%m-%d" }}</span>
-        </a>
-        {% endfor %}
-      </div>
-    </section>
-
-    <section class="side-card">
-      <h3>快速入口</h3>
-      <div class="action-stack">
-        <a class="action-link" href="{{ '/blog/index.html' | relative_url }}">查看全部文章</a>
-        {% if featured_post %}
-        <a class="action-link" href="{{ featured_post.url | relative_url }}">阅读最新文章</a>
-        {% endif %}
-      </div>
-    </section>
-  </aside>
 </div>
