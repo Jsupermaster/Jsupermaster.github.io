@@ -10,6 +10,8 @@ tags:
   - Studing Note
 article_kicker: MEMORY NOTE
 cover_image: /assets/images/mem_study/image-20260411165806485.png
+word_count: 5.6k 字
+read_time: 约 19 分钟
 ---
 
 > 参考文献：
@@ -17,8 +19,6 @@ cover_image: /assets/images/mem_study/image-20260411165806485.png
 > Memory Systems: Cache, DRAM, Disk
 
 一个常见的系统：
-
-![DRAM system overview]({{ '/assets/images/mem_study/image-20260411165806485.png' | relative_url }})
 
 ## 1.1 DRAM的层级
 
