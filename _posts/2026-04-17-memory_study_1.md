@@ -1,7 +1,7 @@
 ---
 title: 内存与系统：第一章 DRAM原理概述
-date: 2026-04-19 21:00:00 +0800
-description: 从 DRAM 层级、总线、典型读取流程到现代 DRAM 演进，对第一章内容做整理归档。
+date: 2026-04-17 21:00:00 +0800
+description: 从 DRAM 层级、总线、典型读取流程到现代 DRAM 演进，简要介绍DRAM的基础信息。
 categories:
   - Computer Architecture
 tags:
