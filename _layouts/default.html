@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'zh-CN' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/styles.css' | relative_url }}">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+        <nav class="topnav">
+          <a class="{% if page.nav == 'home' %}is-active{% endif %}" href="{{ '/' | relative_url }}">首页</a>
+          <a class="{% if page.nav == 'archive' %}is-active{% endif %}" href="{{ '/blog/index.html' | relative_url }}">归档</a>
+          <a href="{{ '/' | relative_url }}#topics">分类</a>
+          <a href="{{ '/' | relative_url }}#tags">标签</a>
+          <a href="{{ '/' | relative_url }}#about">关于</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-layout">
+      {{ content }}
+    </main>
+  </div>
+</body>
+</html>

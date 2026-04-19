@@ -1,0 +1,22 @@
+title: Jsupermaster
+email: your-email@example.com
+description: 贾宇童的个人博客，记录 AI、并行计算、工程实践与学习笔记。
+url: "https://jsupermaster.github.io"
+baseurl: ""
+lang: zh-CN
+timezone: Asia/Shanghai
+markdown: kramdown
+highlighter: rouge
+permalink: /posts/:title.html
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+      author: Jsupermaster

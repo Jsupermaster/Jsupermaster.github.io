@@ -1,0 +1,44 @@
+---
+layout: default
+---
+<article class="article-layout">
+  <div class="article-main">
+    <p class="article-kicker">{{ page.article_kicker | default: "BLOG POST" }}</p>
+    <h1>{{ page.title }}</h1>
+    <div class="article-meta">
+      <span>{{ page.date | date: "%Y-%m-%d" }}</span>
+      {% for category in page.categories %}
+      <span>{{ category }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="article-content">
+      {{ content }}
+    </div>
+
+    <div class="article-actions">
+      <a class="read-more" href="{{ '/blog/index.html' | relative_url }}">返回归档</a>
+      <a class="read-more" href="{{ '/' | relative_url }}">返回首页</a>
+    </div>
+  </div>
+
+  <aside class="article-sidebar">
+    <section class="sidebar-card">
+      <h3>文章信息</h3>
+      <ul class="meta-list">
+        <li><span>日期</span><strong>{{ page.date | date: "%Y-%m-%d" }}</strong></li>
+        <li><span>作者</span><strong>{{ page.author | default: site.title }}</strong></li>
+        <li><span>分类</span><strong>{{ page.categories | join: ", " }}</strong></li>
+        <li><span>标签</span><strong>{% for tag in page.tags %}#{{ tag }} {% endfor %}</strong></li>
+      </ul>
+    </section>
+
+    <section class="sidebar-card">
+      <h3>继续阅读</h3>
+      <div class="action-stack">
+        <a class="action-link" href="{{ '/blog/index.html' | relative_url }}">查看文章归档</a>
+        <a class="action-link" href="{{ '/' | relative_url }}#topics">浏览分类</a>
+      </div>
+    </section>
+  </aside>
+</article>
