@@ -9,6 +9,7 @@ tags:
   - DRAM
   - Studing Note
 article_kicker: MEMORY NOTE
+cover_image: /assets/images/mem_study/image-20260411165806485.png
 ---
 
 > 参考文献：

@@ -243,6 +243,20 @@ img {
   line-height: 1.35;
 }
 
+.feed-cover-link {
+  display: block;
+  margin-top: 16px;
+}
+
+.feed-cover {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #f4f7fb;
+}
+
 .feed-card h2 a:hover,
 .recent-link strong:hover,
 .read-link:hover {
@@ -371,6 +385,22 @@ img {
 
 .post-main {
   padding: 28px 30px;
+}
+
+.post-layout-single {
+  grid-template-columns: 1fr;
+}
+
+.post-main-single {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.post-cover {
+  width: 100%;
+  margin-top: 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
 }
 
 .post-content {

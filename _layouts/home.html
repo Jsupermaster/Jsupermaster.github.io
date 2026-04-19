@@ -18,12 +18,12 @@ layout: default
       <span>篇文章</span>
     </div>
     <div class="mini-stat">
-      <strong>{{ site.categories | size }}</strong>
-      <span>个分类</span>
+      <strong id="busuanzi_value_site_uv">-</strong>
+      <span>位访客</span>
     </div>
     <div class="mini-stat">
-      <strong>{{ site.tags | size }}</strong>
-      <span>个标签</span>
+      <strong id="busuanzi_value_site_pv">-</strong>
+      <span>次浏览</span>
     </div>
   </div>
 </section>
@@ -40,6 +40,11 @@ layout: default
         {% endif %}
       </div>
       <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      {% if post.cover_image %}
+      <a class="feed-cover-link" href="{{ post.url | relative_url }}">
+        <img class="feed-cover" src="{{ post.cover_image | relative_url }}" alt="{{ post.title }}">
+      </a>
+      {% endif %}
       <p class="feed-excerpt">{{ post.excerpt | strip_html | strip_newlines }}</p>
       <div class="feed-footer">
         <div class="chip-row">
