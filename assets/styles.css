@@ -716,8 +716,9 @@ img {
 
 .post-toc {
   position: fixed;
-  top: 96px;
+  top: 50%;
   left: 8px;
+  transform: translateY(-50%);
   z-index: 18;
   width: min(220px, 18vw);
   max-height: calc(100vh - 120px);
