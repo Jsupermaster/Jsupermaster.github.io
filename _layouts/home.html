@@ -33,7 +33,7 @@ layout: default
           <section class="home-floating-card home-recent-card">
             <h3>最近文章</h3>
             <div class="recent-list">
-              {% for post in site.posts limit: 5 %}
+              {% for post in site.posts limit: 4 %}
               <a class="recent-link" href="{{ post.url | relative_url }}">
                 <strong>{{ post.title }}</strong>
                 <span>{{ post.date | date: "%Y-%m-%d" }}</span>
