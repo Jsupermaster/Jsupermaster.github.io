@@ -90,6 +90,19 @@
   {% endif %}
   <script>
     (() => {
+      const topbar = document.querySelector('.topbar');
+      if (!topbar) return;
+
+      const syncTopbarHeight = () => {
+        document.documentElement.style.setProperty('--topbar-height', `${topbar.offsetHeight}px`);
+      };
+
+      syncTopbarHeight();
+      window.addEventListener('resize', syncTopbarHeight);
+    })();
+  </script>
+  <script>
+    (() => {
       const modal = document.getElementById('search-modal');
       const input = document.getElementById('global-search-input');
       const results = document.getElementById('global-search-results');

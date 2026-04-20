@@ -74,10 +74,15 @@ layout: default
     const content = document.querySelector('.post-content');
     if (!toc || !tocNav || !content) return;
 
-    const headings = Array.from(content.querySelectorAll('h2, h3'))
+    const headings = Array.from(content.querySelectorAll('h2, h3, h4'))
       .filter(item => item.textContent.trim() && !item.closest('blockquote'));
 
     if (!headings.length) return;
+
+    const topOffset = () => {
+      const value = getComputedStyle(document.documentElement).getPropertyValue('--topbar-height');
+      return Number.parseFloat(value) || 64;
+    };
 
     const slugify = (text) => text
       .trim()
@@ -88,60 +93,127 @@ layout: default
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-');
 
+    const escapeHtml = (text) => text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+
     const usedIds = new Map();
     const items = headings.map((heading) => {
-      if (!heading.id) {
-        const baseId = slugify(heading.textContent) || 'section';
-        const seen = usedIds.get(baseId) || 0;
-        usedIds.set(baseId, seen + 1);
-        heading.id = seen ? `${baseId}-${seen + 1}` : baseId;
-      }
+      const rawId = (heading.id || slugify(heading.textContent) || 'section').trim();
+      const seen = usedIds.get(rawId) || 0;
+      usedIds.set(rawId, seen + 1);
+      heading.id = seen ? `${rawId}-${seen + 1}` : rawId;
 
       heading.classList.add('post-heading-anchor');
 
       return {
         id: heading.id,
         title: heading.textContent.trim(),
-        level: Number(heading.tagName.slice(1))
+        level: Number(heading.tagName.slice(1)),
+        children: []
       };
     });
 
-    tocNav.innerHTML = items.map((item) => `
-      <a class="post-toc-link level-${item.level}" href="#${item.id}">${item.title}</a>
-    `).join('');
+    const tree = [];
+    const stack = [];
+    items.forEach((item) => {
+      while (stack.length && stack[stack.length - 1].level >= item.level) {
+        stack.pop();
+      }
+
+      if (stack.length) {
+        stack[stack.length - 1].children.push(item);
+      } else {
+        tree.push(item);
+      }
+
+      stack.push(item);
+    });
+
+    const renderNodes = (nodes) => `
+      <ul class="post-toc-list">
+        ${nodes.map((node) => {
+          const hasChildren = node.children.length > 0;
+          return `
+            <li class="post-toc-item level-${node.level}${hasChildren ? ' is-branch' : ''}" data-toc-id="${node.id}">
+              <div class="post-toc-row">
+                <a class="post-toc-link" href="#${node.id}">${escapeHtml(node.title)}</a>
+                ${hasChildren ? '<button class="post-toc-toggle" type="button" aria-label="Toggle section" aria-expanded="true"></button>' : ''}
+              </div>
+              ${hasChildren ? `<div class="post-toc-children">${renderNodes(node.children)}</div>` : ''}
+            </li>
+          `;
+        }).join('')}
+      </ul>
+    `;
+
+    tocNav.innerHTML = renderNodes(tree);
 
     toc.hidden = false;
 
     const tocLinks = Array.from(tocNav.querySelectorAll('.post-toc-link'));
+    const tocItems = Array.from(tocNav.querySelectorAll('.post-toc-item'));
     const linkById = new Map(tocLinks.map(link => [decodeURIComponent(link.hash.slice(1)), link]));
+    const itemById = new Map(tocItems.map(item => [item.dataset.tocId, item]));
+
+    const setBranchExpanded = (item, expanded) => {
+      if (!item || !item.classList.contains('is-branch')) return;
+      item.classList.toggle('is-collapsed', !expanded);
+      const button = item.querySelector('.post-toc-toggle');
+      if (button) button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    };
 
     const setActive = (id) => {
       tocLinks.forEach(link => {
         link.classList.toggle('is-active', decodeURIComponent(link.hash.slice(1)) === id);
       });
+
+      tocItems.forEach(item => item.classList.remove('is-active-path'));
+
+      let current = itemById.get(id);
+      while (current) {
+        current.classList.add('is-active-path');
+        setBranchExpanded(current, true);
+        current = current.parentElement.closest('.post-toc-item');
+      }
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter(entry => entry.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    tocNav.addEventListener('click', (event) => {
+      const button = event.target.closest('.post-toc-toggle');
+      if (!button) return;
 
-      if (visible.length) {
-        setActive(visible[0].target.id);
-        return;
-      }
-
-      const passed = entries
-        .filter(entry => entry.boundingClientRect.top < 140)
-        .sort((a, b) => b.boundingClientRect.top - a.boundingClientRect.top);
-
-      if (passed.length) setActive(passed[0].target.id);
-    }, {
-      rootMargin: '-18% 0px -65% 0px',
-      threshold: [0, 1]
+      const item = button.closest('.post-toc-item');
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      setBranchExpanded(item, !expanded);
+      event.preventDefault();
     });
 
-    headings.forEach(heading => observer.observe(heading));
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(entry => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visible.length) {
+          setActive(visible[0].target.id);
+          return;
+        }
+
+        const passed = entries
+          .filter(entry => entry.boundingClientRect.top < topOffset() + 48)
+          .sort((a, b) => b.boundingClientRect.top - a.boundingClientRect.top);
+
+        if (passed.length) setActive(passed[0].target.id);
+      }, {
+        rootMargin: `-${Math.round(topOffset() + 24)}px 0px -65% 0px`,
+        threshold: [0, 1]
+      });
+
+      headings.forEach(heading => observer.observe(heading));
+    }
 
     const initial = items[0];
     if (initial && linkById.has(initial.id)) {
