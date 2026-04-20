@@ -1,22 +1,22 @@
 ---
 layout: default
 nav: search
-title: Search
-description: Search posts and pages.
+title: 搜索
+description: 搜索博客中的文章和页面。
 permalink: /search/index.html
 ---
 <section class="archive-header">
-  <p class="section-kicker">SEARCH</p>
-  <h1>Search</h1>
-  <p class="archive-copy">Search across posts and key pages in the blog.</p>
+  <p class="section-kicker">搜索</p>
+  <h1>站内搜索</h1>
+  <p class="archive-copy">搜索博客中的文章与重要页面。</p>
 </section>
 
 <section class="panel-block search-panel">
   <div class="panel-heading">
-    <h3>Query</h3>
-    <span>Posts and Pages</span>
+    <h3>搜索内容</h3>
+    <span>文章与页面</span>
   </div>
-  <input id="search-input" class="search-input" type="search" placeholder="Search titles, tags, categories..." autocomplete="off">
+  <input id="search-input" class="search-input" type="search" placeholder="搜索标题、标签、分类..." autocomplete="off">
   <div id="search-results" class="search-results"></div>
 </section>
 
@@ -28,11 +28,11 @@ permalink: /search/index.html
     let items = [];
     const render = (matches, query) => {
       if (!query) {
-        results.innerHTML = '<p class="search-empty">Type something to start searching.</p>';
+        results.innerHTML = '<p class="search-empty">请输入关键词开始搜索。</p>';
         return;
       }
       if (!matches.length) {
-        results.innerHTML = '<p class="search-empty">No matching content found.</p>';
+        results.innerHTML = '<p class="search-empty">未找到匹配内容。</p>';
         return;
       }
       results.innerHTML = matches.map(item => `

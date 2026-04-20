@@ -1,9 +1,9 @@
 ---
 layout: category
-title: AI Accelerator
+title: AI 加速器
 nav: archive
 permalink: /blog/AI_Accelerator/index.html
-hero_kicker: CATEGORY
-description: AI 加速最新进展、开源工作。
+hero_kicker: 分类
+description: AI 加速器的最新进展与开源工作。
 filter_category: AI Accelerator
 ---

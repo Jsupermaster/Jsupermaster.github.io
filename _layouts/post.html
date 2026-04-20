@@ -74,7 +74,7 @@ layout: default
     const content = document.querySelector('.post-content');
     if (!toc || !tocNav || !content) return;
 
-    const headings = Array.from(content.querySelectorAll('h2, h3, h4'))
+    const headings = Array.from(content.querySelectorAll('h2, h3'))
       .filter(item => item.textContent.trim());
 
     if (!headings.length) return;

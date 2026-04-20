@@ -1,20 +1,20 @@
 ---
 layout: default
 nav: tags
-title: Tag Results
-description: Browse posts by tag.
+title: 标签结果
+description: 按标签浏览文章。
 permalink: /tags/result.html
 ---
 <section class="archive-header">
-  <p class="section-kicker">TAG</p>
-  <h1 id="tag-result-title">Tag Results</h1>
-  <p id="tag-result-copy" class="archive-copy">Loading posts for the selected tag...</p>
+  <p class="section-kicker">标签</p>
+  <h1 id="tag-result-title">标签结果</h1>
+  <p id="tag-result-copy" class="archive-copy">正在加载所选标签的文章...</p>
 </section>
 
 <section class="panel-block search-panel">
   <div class="panel-heading">
-    <h3>Tag Overview</h3>
-    <span id="tag-result-count">Preparing...</span>
+    <h3>标签概览</h3>
+    <span id="tag-result-count">准备中...</span>
   </div>
   <div id="tag-result-state" class="search-results"></div>
 </section>
@@ -36,7 +36,7 @@ permalink: /tags/result.html
     const tagHref = (tag) => `{{ '/tags/result.html' | relative_url }}?tag=${encodeURIComponent(tag)}`;
 
     const renderEmpty = (message, summary) => {
-      title.textContent = 'Tag Results';
+      title.textContent = '标签结果';
       copy.textContent = summary;
       count.textContent = '0 篇文章';
       state.innerHTML = `<p class="search-empty">${message}</p>`;
@@ -44,13 +44,13 @@ permalink: /tags/result.html
     };
 
     const renderPosts = (tagInfo) => {
-      document.title = `Tag: ${tagInfo.name} | {{ site.title }}`;
+      document.title = `标签：${tagInfo.name} | {{ site.title }}`;
       title.textContent = `#${tagInfo.name}`;
-      copy.textContent = `Showing all posts currently tagged with ${tagInfo.name}.`;
+      copy.textContent = `当前展示标签 ${tagInfo.name} 下的全部文章。`;
       count.textContent = `${tagInfo.count} 篇文章`;
       state.innerHTML = `
         <div class="panel-heading">
-          <h3>Selected Tag</h3>
+          <h3>当前标签</h3>
           <span><a class="read-link" href="{{ '/tags/index.html' | relative_url }}">返回标签页</a></span>
         </div>
       `;
@@ -85,7 +85,7 @@ permalink: /tags/result.html
     };
 
     if (!selectedTag) {
-      renderEmpty('请选择一个标签后再查看文章列表。', 'Open the tags index and choose a tag to view related posts.');
+      renderEmpty('请选择一个标签后再查看文章列表。', '打开标签页并选择一个标签查看相关文章。');
       return;
     }
 
@@ -94,13 +94,13 @@ permalink: /tags/result.html
       .then(data => {
         const match = data.find(item => item.name === selectedTag);
         if (!match) {
-          renderEmpty(`没有找到标签 “${selectedTag}” 对应的文章。`, `The requested tag "${selectedTag}" does not exist in the current post set.`);
+          renderEmpty(`没有找到标签“${selectedTag}”对应的文章。`, `当前文章集中不存在标签“${selectedTag}”。`);
           return;
         }
         renderPosts(match);
       })
       .catch(() => {
-        renderEmpty('标签数据加载失败，请稍后刷新重试。', 'Unable to load the tag index right now.');
+        renderEmpty('标签数据加载失败，请稍后刷新重试。', '当前无法加载标签索引。');
       });
   })();
 </script>

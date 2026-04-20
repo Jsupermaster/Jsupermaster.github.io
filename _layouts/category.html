@@ -2,7 +2,7 @@
 layout: default
 ---
 <section class="archive-header">
-  <p class="section-kicker">{{ page.hero_kicker | default: "CATEGORY" }}</p>
+  <p class="section-kicker">{{ page.hero_kicker | default: "分类" }}</p>
   <h1>{{ page.title }}</h1>
   <p class="archive-copy">{{ page.description }}</p>
 </section>
@@ -38,8 +38,8 @@ layout: default
         <span>{{ page.filter_category }}</span>
       </div>
       <p class="feed-excerpt">
-        这个分类页已经建好，后续你只需要在文章的 front matter 里写上
-        <code>{{ page.filter_category }}</code> 分类，这里就会自动显示相关文章。
+        这个分类页已经创建完成。后续只要在文章的 front matter 中写入
+        <code>{{ page.filter_category }}</code> 这个分类，这里就会自动显示相关文章。
       </p>
     </section>
   {% endif %}

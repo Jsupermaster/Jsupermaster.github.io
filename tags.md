@@ -1,22 +1,22 @@
 ---
 layout: default
 nav: tags
-title: Tags
-description: Browse all tags used across the blog.
+title: 标签
+description: 浏览博客中的全部标签。
 permalink: /tags/index.html
 ---
 {% assign sorted_tags = site.tags | sort %}
 
 <section class="archive-header">
-  <p class="section-kicker">TAGS</p>
-  <h1>Tags</h1>
-  <p class="archive-copy">Automatically grouped from all current posts. Click a tag to open its article list.</p>
+  <p class="section-kicker">标签</p>
+  <h1>标签</h1>
+  <p class="archive-copy">全部标签会根据现有文章自动归类，点击标签可查看相关文章。</p>
 </section>
 
 <section class="panel-block">
   <div class="panel-heading">
-    <h3>All Tags</h3>
-    <span>{{ sorted_tags.size }} Labels</span>
+    <h3>全部标签</h3>
+    <span>{{ sorted_tags.size }} 个标签</span>
   </div>
   {% if sorted_tags.size > 0 %}
   <div class="topic-grid">
@@ -31,6 +31,6 @@ permalink: /tags/index.html
     {% endfor %}
   </div>
   {% else %}
-  <p class="feed-excerpt">当前还没有检测到标签。只要文章 front matter 中带有 <code>tags</code> 字段，这里就会自动显示。</p>
+  <p class="feed-excerpt">当前还没有检测到标签。只要文章的 front matter 中包含 <code>tags</code> 字段，这里就会自动显示。</p>
   {% endif %}
 </section>

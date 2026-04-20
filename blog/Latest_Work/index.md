@@ -1,9 +1,9 @@
 ---
 layout: category
-title: Latest Work
+title: 最新工作
 nav: archive
 permalink: /blog/Latest_Work/index.html
-hero_kicker: CATEGORY
-description: 我的最新工作，包括论文与开源项目。
+hero_kicker: 分类
+description: 我最近的论文、项目与开源工作。
 filter_category: Latest Work
 ---
