@@ -718,10 +718,10 @@ img {
 .post-toc {
   position: fixed;
   top: calc(var(--topbar-height) + 16px);
-  left: 8px;
+  left: var(--post-toc-left, 8px);
   transform: none;
   z-index: 18;
-  width: min(248px, 20vw);
+  width: var(--post-toc-width, min(248px, 20vw));
   max-height: calc(100vh - var(--topbar-height) - 32px);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.24);
@@ -729,6 +729,7 @@ img {
   background: rgba(255, 255, 255, 0.16);
   box-shadow: 0 16px 32px rgba(18, 35, 56, 0.08);
   backdrop-filter: blur(16px);
+  transition: transform 220ms ease, opacity 220ms ease, box-shadow 220ms ease;
 }
 
 .post-toc-inner {
@@ -847,6 +848,61 @@ img {
 
 .post-toc-item.is-collapsed > .post-toc-row > .post-toc-toggle::before {
   transform: rotate(-45deg) translateY(-1px);
+}
+
+.post-toc-trigger {
+  position: fixed;
+  top: calc(var(--topbar-height) + 16px);
+  left: 12px;
+  z-index: 54;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid rgba(58, 110, 165, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 24px rgba(18, 35, 56, 0.12);
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+}
+
+.post-toc-trigger:hover {
+  background: #ffffff;
+}
+
+.post-toc-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 53;
+  background: rgba(8, 14, 24, 0.22);
+  backdrop-filter: blur(4px);
+}
+
+.post-toc.is-compact {
+  left: 12px;
+  width: min(320px, calc(100vw - 24px));
+  max-width: min(320px, calc(100vw - 24px));
+  z-index: 55;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(calc(-100% - 20px));
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 22px 44px rgba(18, 35, 56, 0.18);
+}
+
+.post-toc.is-compact.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.post-toc.is-compact .post-toc-inner {
+  padding: 18px 18px 20px;
 }
 
 .post-hero {
@@ -1017,12 +1073,6 @@ img {
   }
 }
 
-@media (max-width: 1320px) {
-  .post-toc {
-    display: none;
-  }
-}
-
 @media (max-width: 760px) {
   .topbar {
     position: static;
@@ -1060,10 +1110,6 @@ img {
   .home-hero-inner {
     width: calc(100% - 20px);
     padding: calc(24px + var(--topbar-height)) 0 22px;
-  }
-
-  .post-toc {
-    display: none;
   }
 
   .home-dashboard {

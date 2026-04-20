@@ -54,6 +54,8 @@ layout: default
       <nav id="post-toc-nav" class="post-toc-nav"></nav>
     </div>
   </aside>
+  <button id="post-toc-trigger" class="post-toc-trigger" type="button" hidden aria-controls="post-toc" aria-expanded="false">目录</button>
+  <div id="post-toc-backdrop" class="post-toc-backdrop" hidden></div>
 
   <div class="post-main post-main-single post-main-body">
     <div class="post-content">
@@ -71,13 +73,21 @@ layout: default
   (() => {
     const toc = document.getElementById('post-toc');
     const tocNav = document.getElementById('post-toc-nav');
+    const tocTrigger = document.getElementById('post-toc-trigger');
+    const tocBackdrop = document.getElementById('post-toc-backdrop');
     const content = document.querySelector('.post-content');
-    if (!toc || !tocNav || !content) return;
+    const postMain = document.querySelector('.post-main-single');
+    if (!toc || !tocNav || !tocTrigger || !tocBackdrop || !content || !postMain) return;
 
     const headings = Array.from(content.querySelectorAll('h2, h3, h4'))
       .filter(item => item.textContent.trim() && !item.closest('blockquote'));
 
     if (!headings.length) return;
+
+    const MIN_TOC_WIDTH = 200;
+    const MAX_TOC_WIDTH = 280;
+    let activeId = '';
+    let syncPending = false;
 
     const topOffset = () => {
       const value = getComputedStyle(document.documentElement).getPropertyValue('--topbar-height');
@@ -141,7 +151,7 @@ layout: default
             <li class="post-toc-item level-${node.level}${hasChildren ? ' is-branch' : ''}" data-toc-id="${node.id}">
               <div class="post-toc-row">
                 <a class="post-toc-link" href="#${node.id}">${escapeHtml(node.title)}</a>
-                ${hasChildren ? '<button class="post-toc-toggle" type="button" aria-label="Toggle section" aria-expanded="true"></button>' : ''}
+                ${hasChildren ? '<button class="post-toc-toggle" type="button" aria-label="Toggle section" aria-expanded="false"></button>' : ''}
               </div>
               ${hasChildren ? `<div class="post-toc-children">${renderNodes(node.children)}</div>` : ''}
             </li>
@@ -151,27 +161,80 @@ layout: default
     `;
 
     tocNav.innerHTML = renderNodes(tree);
-
     toc.hidden = false;
 
     const tocLinks = Array.from(tocNav.querySelectorAll('.post-toc-link'));
     const tocItems = Array.from(tocNav.querySelectorAll('.post-toc-item'));
+    const branchItems = tocItems.filter(item => item.classList.contains('is-branch'));
     const linkById = new Map(tocLinks.map(link => [decodeURIComponent(link.hash.slice(1)), link]));
     const itemById = new Map(tocItems.map(item => [item.dataset.tocId, item]));
+
+    const setCompactOpen = (open) => {
+      const isCompact = toc.classList.contains('is-compact');
+      const shouldOpen = isCompact && open;
+      toc.classList.toggle('is-open', shouldOpen);
+      tocTrigger.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+      tocBackdrop.hidden = !shouldOpen;
+    };
 
     const setBranchExpanded = (item, expanded) => {
       if (!item || !item.classList.contains('is-branch')) return;
       item.classList.toggle('is-collapsed', !expanded);
       const button = item.querySelector('.post-toc-toggle');
       if (button) button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+
+      if (!expanded) {
+        item.querySelectorAll('.post-toc-item.is-branch').forEach((branch) => {
+          if (branch === item) return;
+          branch.classList.add('is-collapsed');
+          const nestedButton = branch.querySelector('.post-toc-toggle');
+          if (nestedButton) nestedButton.setAttribute('aria-expanded', 'false');
+        });
+      }
+    };
+
+    const collapseAllBranches = () => {
+      branchItems.forEach(item => setBranchExpanded(item, false));
+    };
+
+    const collapseSiblingBranches = (item) => {
+      if (!item || !item.parentElement) return;
+      Array.from(item.parentElement.children).forEach((sibling) => {
+        if (sibling === item || !sibling.classList.contains('post-toc-item')) return;
+        setBranchExpanded(sibling, false);
+      });
+    };
+
+    const syncTocLayout = () => {
+      const mainLeft = postMain.getBoundingClientRect().left;
+      const availableWidth = Math.floor(mainLeft - 28);
+      const compact = availableWidth < MIN_TOC_WIDTH;
+
+      toc.classList.toggle('is-compact', compact);
+
+      if (compact) {
+        toc.style.removeProperty('--post-toc-width');
+        tocTrigger.hidden = false;
+        setCompactOpen(false);
+        return;
+      }
+
+      toc.style.setProperty('--post-toc-width', `${Math.min(MAX_TOC_WIDTH, availableWidth)}px`);
+      tocTrigger.hidden = true;
+      setCompactOpen(false);
     };
 
     const setActive = (id) => {
+      if (!id) return;
+      const changed = id !== activeId;
+      activeId = id;
+
       tocLinks.forEach(link => {
         link.classList.toggle('is-active', decodeURIComponent(link.hash.slice(1)) === id);
       });
 
       tocItems.forEach(item => item.classList.remove('is-active-path'));
+      collapseAllBranches();
 
       let current = itemById.get(id);
       while (current) {
@@ -179,45 +242,77 @@ layout: default
         setBranchExpanded(current, true);
         current = current.parentElement.closest('.post-toc-item');
       }
+
+      const activeLink = linkById.get(id);
+      if (activeLink && changed) {
+        activeLink.scrollIntoView({ block: 'nearest' });
+      }
     };
 
     tocNav.addEventListener('click', (event) => {
       const button = event.target.closest('.post-toc-toggle');
-      if (!button) return;
+      if (button) {
+        const item = button.closest('.post-toc-item');
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        if (!expanded) collapseSiblingBranches(item);
+        setBranchExpanded(item, !expanded);
+        event.preventDefault();
+        return;
+      }
 
-      const item = button.closest('.post-toc-item');
-      const expanded = button.getAttribute('aria-expanded') === 'true';
-      setBranchExpanded(item, !expanded);
-      event.preventDefault();
+      const link = event.target.closest('.post-toc-link');
+      if (link && toc.classList.contains('is-compact')) {
+        setCompactOpen(false);
+      }
     });
 
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        const visible = entries
-          .filter(entry => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    tocTrigger.addEventListener('click', () => {
+      setCompactOpen(!toc.classList.contains('is-open'));
+    });
 
-        if (visible.length) {
-          setActive(visible[0].target.id);
-          return;
+    tocBackdrop.addEventListener('click', () => {
+      setCompactOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toc.classList.contains('is-open')) {
+        setCompactOpen(false);
+      }
+    });
+
+    const syncActiveHeading = () => {
+      if (syncPending) return;
+      syncPending = true;
+
+      requestAnimationFrame(() => {
+        syncPending = false;
+        const marker = topOffset() + 56;
+        let current = headings[0];
+
+        for (const heading of headings) {
+          if (heading.getBoundingClientRect().top <= marker) {
+            current = heading;
+            continue;
+          }
+          break;
         }
 
-        const passed = entries
-          .filter(entry => entry.boundingClientRect.top < topOffset() + 48)
-          .sort((a, b) => b.boundingClientRect.top - a.boundingClientRect.top);
-
-        if (passed.length) setActive(passed[0].target.id);
-      }, {
-        rootMargin: `-${Math.round(topOffset() + 24)}px 0px -65% 0px`,
-        threshold: [0, 1]
+        setActive(current.id);
       });
+    };
 
-      headings.forEach(heading => observer.observe(heading));
-    }
+    collapseAllBranches();
+    syncTocLayout();
+    syncActiveHeading();
 
-    const initial = items[0];
-    if (initial && linkById.has(initial.id)) {
-      setActive(initial.id);
-    }
+    window.addEventListener('scroll', syncActiveHeading, { passive: true });
+    window.addEventListener('resize', () => {
+      syncTocLayout();
+      syncActiveHeading();
+    });
+    window.addEventListener('load', () => {
+      syncTocLayout();
+      syncActiveHeading();
+    });
   })();
 </script>
