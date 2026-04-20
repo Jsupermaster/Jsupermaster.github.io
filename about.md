@@ -14,10 +14,10 @@ permalink: /about/index.html
 <section class="panel-block">
   <div class="panel-heading">
     <h3>个人简介</h3>
-    <span>贾雨彤</span>
+    <span>贾宇童</span>
   </div>
   <p class="feed-excerpt">
-    这是贾雨彤的个人博客。我本科毕业于吉林大学电子工程专业，目前在中国科学院计算技术研究所攻读博士。
+    这是贾宇童的个人博客。他本科毕业于吉林大学电子工程专业，目前在中国科学院计算技术研究所攻读博士。
     研究兴趣主要集中在 PIM/PNM 架构、计算机体系结构以及 AI 处理器架构。
   </p>
 </section>

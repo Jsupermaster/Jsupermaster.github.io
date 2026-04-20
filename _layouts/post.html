@@ -75,7 +75,7 @@ layout: default
     if (!toc || !tocNav || !content) return;
 
     const headings = Array.from(content.querySelectorAll('h2, h3'))
-      .filter(item => item.textContent.trim());
+      .filter(item => item.textContent.trim() && !item.closest('blockquote'));
 
     if (!headings.length) return;
 
