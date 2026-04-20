@@ -10,6 +10,7 @@
   --shadow: 0 10px 28px rgba(28, 48, 74, 0.06);
   --radius: 18px;
   --content-width: 1180px;
+  --topbar-height: 64px;
 }
 
 * {
@@ -196,7 +197,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px 0 42px;
+  padding: calc(48px + var(--topbar-height)) 0 42px;
 }
 
 .home-hero-grid {
@@ -809,7 +810,7 @@ img {
   width: min(var(--content-width), calc(100% - 40px));
   min-height: 78vh;
   margin: 0 auto;
-  padding: 48px 0 42px;
+  padding: calc(48px + var(--topbar-height)) 0 42px;
   color: #f7fbff;
   text-align: center;
 }
@@ -994,7 +995,7 @@ img {
 
   .home-hero-inner {
     width: calc(100% - 20px);
-    padding: 24px 0 22px;
+    padding: calc(24px + var(--topbar-height)) 0 22px;
   }
 
   .post-toc {
@@ -1026,7 +1027,7 @@ img {
 
   .post-hero-inner {
     width: calc(100% - 20px);
-    padding: 24px 0 22px;
+    padding: calc(24px + var(--topbar-height)) 0 22px;
   }
 
   .panel-heading {

@@ -68,15 +68,23 @@
       const hero = document.querySelector('.home-hero, .post-hero');
       if (!topbar || !hero) return;
 
+      const syncTopbarHeight = () => {
+        document.documentElement.style.setProperty('--topbar-height', `${topbar.offsetHeight}px`);
+      };
+
       const syncTopbar = () => {
         const heroBottom = hero.getBoundingClientRect().bottom;
         const threshold = topbar.offsetHeight;
         topbar.classList.toggle('is-scrolled', heroBottom <= threshold);
       };
 
+      syncTopbarHeight();
       syncTopbar();
       window.addEventListener('scroll', syncTopbar, { passive: true });
-      window.addEventListener('resize', syncTopbar);
+      window.addEventListener('resize', () => {
+        syncTopbarHeight();
+        syncTopbar();
+      });
     })();
   </script>
   {% endif %}
