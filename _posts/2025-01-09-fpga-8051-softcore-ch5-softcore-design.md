@@ -6,7 +6,7 @@ categories:
   - FPGA
 tags:
   - FPGA
-  - 8051
+  - "8051"
   - Verilog
   - Book Notes
 article_kicker: BOOK NOTE
