@@ -17,9 +17,9 @@ cover_image: /assets/images/fpga_8051_softcore/51KE6P2qUSL._SY445_SX342_.jpg
 
 为了充分测试8051的性能，我们需要测试每一条指令。在HELLO文件夹中存放了整个测试的C语言工程文件。主函数存放在指令被分为五大类，和上面一样。
 
-![屏幕截图 2025-01-14 112132]({{ '/assets/images/fpga_8051_softcore/屏幕截图 2025-01-14 112132.png' | relative_url }})
+![屏幕截图 2025-01-14 112132](/assets/images/fpga_8051_softcore/屏幕截图 2025-01-14 112132.png)
 
-![屏幕截图 2025-01-14 112245]({{ '/assets/images/fpga_8051_softcore/屏幕截图 2025-01-14 112245.png' | relative_url }})
+![屏幕截图 2025-01-14 112245](/assets/images/fpga_8051_softcore/屏幕截图 2025-01-14 112245.png)
 
 打开后是这样的文件结构。HELLO.c是主文件，这是里面的代码：
 
@@ -405,8 +405,8 @@ endmodule
 
 将tb.v和R8051.v一起加入Modelsim工程（注意不要导入instruction.v，否则会报错，需要更改的有两处路径，分别是tb中引用HELLO.bin的路径，和R8051.v中对instruction.v引用的路径，更改后即可复现代码。）之后进行仿真，结果正确。
 
-![屏幕截图 2025-01-14 113417]({{ '/assets/images/fpga_8051_softcore/屏幕截图 2025-01-14 113417.png' | relative_url }})
+![屏幕截图 2025-01-14 113417](/assets/images/fpga_8051_softcore/屏幕截图 2025-01-14 113417.png)
 
-![屏幕截图 2025-01-14 113435]({{ '/assets/images/fpga_8051_softcore/屏幕截图 2025-01-14 113435.png' | relative_url }})
+![屏幕截图 2025-01-14 113435](/assets/images/fpga_8051_softcore/屏幕截图 2025-01-14 113435.png)
 
 至此，我们的8051软核处理器开发基本完毕。之后可以自行修改一些功能，使用这套测试框架进行测试。现在这个软核处理器中没有添加中断，在书中并没有提供添加中断的说明。后续如果有机会将继续更新添加中断的内容。

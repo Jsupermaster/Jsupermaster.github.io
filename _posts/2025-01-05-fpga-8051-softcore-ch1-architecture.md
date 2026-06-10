@@ -21,7 +21,7 @@ cover_image: /assets/images/fpga_8051_softcore/51KE6P2qUSL._SY445_SX342_.jpg
 
 #### 1.2 8051的接口
 
-![文档扫描_20241227200653651]({{ '/assets/images/fpga_8051_softcore/文档扫描_20241227200653651.jpg' | relative_url }})
+![文档扫描_20241227200653651](/assets/images/fpga_8051_softcore/文档扫描_20241227200653651.jpg)
 
 引脚定义：
 
@@ -35,7 +35,7 @@ cover_image: /assets/images/fpga_8051_softcore/51KE6P2qUSL._SY445_SX342_.jpg
 | XTAL1、XTAL2                               | 晶振，每12周期执行一条指令 |
 | P0.0-P0.7、P1.0-P1.7、P2.0-P2.7、P3.0-P3.7 | 输入\输出数据引脚          |
 
-![文档扫描_20241227201742139]({{ '/assets/images/fpga_8051_softcore/文档扫描_20241227201742139.jpg' | relative_url }})
+![文档扫描_20241227201742139](/assets/images/fpga_8051_softcore/文档扫描_20241227201742139.jpg)
 
 串口（UART）P3.0和P3.1引脚实现，用SCON配置串口的工作模式和波特率，SBUF放置接收和发送的字节数据。
 
@@ -45,13 +45,13 @@ cover_image: /assets/images/fpga_8051_softcore/51KE6P2qUSL._SY445_SX342_.jpg
 
 #### 1.3 8051的存储结构
 
-![文档扫描_20241227215542908]({{ '/assets/images/fpga_8051_softcore/文档扫描_20241227215542908.jpg' | relative_url }})
+![文档扫描_20241227215542908](/assets/images/fpga_8051_softcore/文档扫描_20241227215542908.jpg)
 
 CODE区只需要两种操作模式，一种是连续读取（在未遇到跳转和中断指令时），一种是读取指定地址的指令，总体上来说这是一块只读的固定64KB大小空间
 
 数据区分为图中的几类，其中XDATA是片外存储，16bit寻址64KB空间，在这里不区分片内片外存储。SFR是存放特殊控制寄存器的区域，主要包含下图中的内容：除了图中的内容，也可以在这里添加拓展功能。
 
-![文档扫描_20241227220044310]({{ '/assets/images/fpga_8051_softcore/文档扫描_20241227220044310.jpg' | relative_url }})
+![文档扫描_20241227220044310](/assets/images/fpga_8051_softcore/文档扫描_20241227220044310.jpg)
 
 DATA区相当于内存，大小为128Byte，其中包含RS段（00H\~1FH）和可位寻址区（20H\~2FH）
 
@@ -63,7 +63,7 @@ ACC寄存器，地址E0H，最常用的寄存器
 
 PSW寄存器，地址D0H，保存状态标志位
 
-![文档扫描_20241227221651214]({{ '/assets/images/fpga_8051_softcore/文档扫描_20241227221651214.jpg' | relative_url }})
+![文档扫描_20241227221651214](/assets/images/fpga_8051_softcore/文档扫描_20241227221651214.jpg)
 
 SP寄存器，地址81H，堆栈指针寄存器，保存当前栈顶地址，实现中需要写成寄存器（REG）
 

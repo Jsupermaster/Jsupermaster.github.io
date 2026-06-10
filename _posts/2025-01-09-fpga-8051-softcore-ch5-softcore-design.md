@@ -23,27 +23,27 @@ cover_image: /assets/images/fpga_8051_softcore/51KE6P2qUSL._SY445_SX342_.jpg
 
 首先我们先来看看8051的接口部分，我们设计的软核处理器是对原有处理器的再创造，首先我们回忆一下8051的整体架构：
 
-![文档扫描_20241227215542908]({{ '/assets/images/fpga_8051_softcore/文档扫描_20241227215542908.jpg' | relative_url }})
+![文档扫描_20241227215542908](/assets/images/fpga_8051_softcore/文档扫描_20241227215542908.jpg)
 
 左边是CODE区，我们之前已经分析过C语言程序转换为汇编程序，再按照机器码排列起来，就组成了我们的程序序列，我们的软核处理器必须能够从CODE区读出指令，不断解析和执行下去。其他的存储器分为两个部分，XDATA区是独立的内存地址，使用16bit内存地址，从0000H到FFFFH。另外一部分也是独立的内存地址，使用8bit内存地址，从00H到FFH，对于8051来说，DATA区占据低地址空间（到7FH），SFR区占据高地址空间（从80H开始）；对于8052处理器而言，低地址也是DATA区，但高地址在寄存器间接寻址时使用IDATA区，其他时候使用SFR区。因此，我们使用3套接口，实现从CODE区读取指令、从两个数据区读写指令的功能。
 
 在实现中，我们可以使用ROM存放CODE区数据，使用RAM存放数据区数据。故我们可以使用ROM和RAM的通用接口定义来构建我们的接口。首先把ROM的时序图绘制如下：
 
-![屏幕截图 2025-01-01 131521]({{ '/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 131521.png' | relative_url }})
+![屏幕截图 2025-01-01 131521](/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 131521.png)
 
 在这里我们假定rom可以在给出读使能和读地址后的1个周期给出数据，但有时这样的假设并不成立，因此我们可以再加入一个读数据有效信号，以适配更多的存储器特性：
 
-![屏幕截图 2025-01-01 132120]({{ '/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 132120.png' | relative_url }})
+![屏幕截图 2025-01-01 132120](/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 132120.png)
 
 通过加入vld信号，我们的处理器可以适配更广泛的场景，不必需在1个周期后给出读数据。
 
 8051对于不同存储区的访问不会同时进行，因此它们可以公用一组地址线和数据线。当然，我们的顶层接口必须包含clk，rst等信号。综上所述，我们顶层接口信号定义如下：
 
-![屏幕截图 2025-01-01 134615]({{ '/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 134615.png' | relative_url }})
+![屏幕截图 2025-01-01 134615](/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 134615.png)
 
 四个使能信号，分别对应于DATA区，SFR区，IDATA区和XDATA区。它们公用一个16位的地址信号，DATA、IDATA、SFR区只使用低8位，XDATA区使用16位。系统接口除了clk和rst以外，还有一个cpu_en和cpu_restart信号，cpu_en为1时，cpu向前工作一个周期，如果它是0，则保持本周期状态不变，这相当于增加了一个暂停键。cpu_restart是复位功能，等于1时软核处理器复位，变成0的时候，不管以前处于任何状态都返回0开始重新运行。为了便于说明，我们将作者的源码从github上下载到本地，可以看到有如下几个文件夹，其中rtl文件夹中存放的就是8051的verilog源码。接下来我们仍旧按照书本的内容介绍这份代码。
 
-![屏幕截图 2025-01-01 154922]({{ '/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 154922.png' | relative_url }})
+![屏幕截图 2025-01-01 154922](/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 154922.png)
 
 #### 5.2 8051软核处理器的基本架构
 
@@ -96,7 +96,7 @@ endmodule
 
 以下是定义的指令流，先给出一个地址rom_addr[15:0]，并拉高rom_en，那么下一个周期，rom_byte等于cmda，下一个周期，cmda向下流动，cmda中的指令进入cmdb中。
 
-![微信图片_20250101162434]({{ '/assets/images/fpga_8051_softcore/微信图片_20250101162434.jpg' | relative_url }})
+![微信图片_20250101162434](/assets/images/fpga_8051_softcore/微信图片_20250101162434.jpg)
 
 **单字节指令**
 
@@ -112,7 +112,7 @@ endmodule
 
 我们把上面的过程画一个图来表示一下：
 
-![屏幕截图 2025-01-01 174059]({{ '/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 174059.png' | relative_url }})
+![屏幕截图 2025-01-01 174059](/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 174059.png)
 
 我们通过编写一个类似C语言中的头文件一样的文件来把指令的识别函数与主体函数做一个分离，这样的优势是框架更清晰。整体程序如下：
 
@@ -451,7 +451,7 @@ assign cmdb = cmd_flag[2] ? cmd1 : 8'b0;
 assign cmdc = cmd2;
 ```
 
-![屏幕截图 2025-01-01 231653]({{ '/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 231653.png' | relative_url }})
+![屏幕截图 2025-01-01 231653](/assets/images/fpga_8051_softcore/屏幕截图 2025-01-01 231653.png)
 
 我们来详细解读一下这部分，cmd0，cmd1，cmd2是原始的程序序列，cmd1比cmd0延时一个周期，cmd2比cmd1延时一个周期。cmda，cmdb和cmdc存放的是指令识别序列。如当判断cmd0是一个指令的识别序列而非后面的地址或数据时，将其赋值给cmda。图中第二行的数据是指令标志（flag），当处于time0时，cmd0是C1，这表示某指令C的第一个字节，也即指令C的识别序列。cmd1是B，cmd2是A，它们都是单字节指令。这时flag位是111，对应于flag[1]是cmd0的判断位，而flag[2]是cmd1的判断位，cmd2没有判断位，flag[0]没有使用。这时flag[1]=1，说明cmd0是指令的识别序列，将其赋值给cmda。flag[2]=1，说明cmd1是指令的识别序列，将其赋值给cmdb。cmd2直接赋值给cmdc。
 
@@ -514,7 +514,7 @@ else
 
 assign code_base = 1'b0 ? dp : pc;
 
-assign code_rel = 1'b0 ? {{8{cmd0[7]}},cmd0} : {{8{acc[7]}},acc};	
+assign code_rel = 1'b0 ? &#123;&#123;8{cmd0[7]&#125;&#125;,cmd0} : &#123;&#123;8{acc[7]&#125;&#125;,acc};	
 	
 assign code_addr = code_base + code_rel;	
 
@@ -1224,7 +1224,7 @@ else
 
 assign code_base = 1'b0 ? dp : pc;
 
-assign code_rel = 1'b0 ? {{8{cmd0[7]}},cmd0} : {{8{acc[7]}},acc};	
+assign code_rel = 1'b0 ? &#123;&#123;8{cmd0[7]&#125;&#125;,cmd0} : &#123;&#123;8{acc[7]&#125;&#125;,acc};	
 	
 assign code_addr = code_base + code_rel;	
 
@@ -1880,7 +1880,7 @@ else
 
 assign code_base = ( movc_a_dp(cmda)|jmp(cmda) ) ? dp : pc;
 
-assign code_rel = ( jc(cmdb)||jnc(cmdb)|jb(cmdc)|jnb(cmdc)|jbc(cmdc)|sjmp(cmdb)|jz(cmdb)|jnz(cmdb)|cjne_a_di_rel(cmdc)|cjne_a_da_rel(cmdc)|cjne_rn_da_rel(cmdc)|cjne_ri_da_rel(cmdc)|djnz_rn_rel(cmdb)|djnz_di_rel(cmdc) ) ? {{8{cmd0[7]}},cmd0} : {{8{acc[7]}},acc};	
+assign code_rel = ( jc(cmdb)||jnc(cmdb)|jb(cmdc)|jnb(cmdc)|jbc(cmdc)|sjmp(cmdb)|jz(cmdb)|jnz(cmdb)|cjne_a_di_rel(cmdc)|cjne_a_da_rel(cmdc)|cjne_rn_da_rel(cmdc)|cjne_ri_da_rel(cmdc)|djnz_rn_rel(cmdb)|djnz_di_rel(cmdc) ) ? &#123;&#123;8{cmd0[7]&#125;&#125;,cmd0} : &#123;&#123;8{acc[7]&#125;&#125;,acc};	
 	
 assign code_addr = code_base + code_rel;	
 
@@ -2241,7 +2241,7 @@ else
 
 assign code_base = ( movc_a_dp(cmda)|jmp(cmda) ) ? dp : pc;
 
-assign code_rel = ( jc(cmdb)||jnc(cmdb)|jb(cmdc)|jnb(cmdc)|jbc(cmdc)|sjmp(cmdb)|jz(cmdb)|jnz(cmdb)|cjne_a_di_rel(cmdc)|cjne_a_da_rel(cmdc)|cjne_rn_da_rel(cmdc)|cjne_ri_da_rel(cmdc)|djnz_rn_rel(cmdb)|djnz_di_rel(cmdc) ) ? {{8{cmd0[7]}},cmd0} : {{8{acc[7]}},acc};	
+assign code_rel = ( jc(cmdb)||jnc(cmdb)|jb(cmdc)|jnb(cmdc)|jbc(cmdc)|sjmp(cmdb)|jz(cmdb)|jnz(cmdb)|cjne_a_di_rel(cmdc)|cjne_a_da_rel(cmdc)|cjne_rn_da_rel(cmdc)|cjne_ri_da_rel(cmdc)|djnz_rn_rel(cmdb)|djnz_di_rel(cmdc) ) ? &#123;&#123;8{cmd0[7]&#125;&#125;,cmd0} : &#123;&#123;8{acc[7]&#125;&#125;,acc};	
 	
 assign code_addr = code_base + code_rel;	
 
