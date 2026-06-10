@@ -19,7 +19,7 @@ read_time: 约 27 分钟
 >
 > gem5，Ramulator 2，DRAMSim3，Verilator 等官方仓库
 
-![DRAM 实现与系统集成概述]({{ '/assets/images/mem_study/Gemini_Generated_Image_cql4b1cql4b1cql4.png' | relative_url }})
+![DRAM 实现与系统集成概述](/assets/images/mem_study/Gemini_Generated_Image_cql4b1cql4b1cql4.png)
 
 对于学术界来说，DRAM 的实现主要依靠仿真与模拟来评估。仿真与模拟主要可以分为三类，分别是**软件模拟器**（比如 gem5、Ramulator 2、DRAMSim3）、**SPICE 仿真**（提供真实电路级阵列模型）以及 **RTL 级仿真**（如利用 DRAM 的行为级模型、验证内存控制器逻辑等）。一般来说，一个完整的流程可能是：
 

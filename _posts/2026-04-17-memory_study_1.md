@@ -20,25 +20,25 @@ read_time: 约 19 分钟
 
 一个常见的系统：
 
-![DRAM system overview]({{ '/assets/images/mem_study/image-20260411165806485.png' | relative_url }})
+![DRAM system overview](/assets/images/mem_study/image-20260411165806485.png)
 
 ## 1.1 DRAM的层级
 
-![DRAM hierarchy]({{ '/assets/images/mem_study/image-20260411191132250.png' | relative_url }})
+![DRAM hierarchy](/assets/images/mem_study/image-20260411191132250.png)
 
 常见的内存条上包含 8 到 16 个内存芯片（DRAM chip），这些 chip 被分为不同的 rank，但这些 rank 只是逻辑上的划分，它代表了内存控制器一次物理访问的数据宽度。一个 chip 中包含多个 bank，而每个 bank 中包含多个 cell array，每个 cell array 通过行加列索引找到每一个数据。
 
 当一个 bank 中含有多个 cell array 时，所有的 array 实际上共享同样的地址，每个 array 读出 1 bit 数据，从而获得 4 bit 或 8 bit 数据。例如，x4 DRAM 表示它每次列访问会同时从四个阵列中各读取 1 bit，最终输出 4 bit 数据；x8 DRAM 则输出 8 bit。而每个 bank 则是完全独立的，它们可以独立于其他 bank 完成激活、预充电、读出等操作。
 
-![Bank and array relationship]({{ '/assets/images/mem_study/image-20260411191844440.png' | relative_url }})
+![Bank and array relationship](/assets/images/mem_study/image-20260411191844440.png)
 
 可以通过激活不同 bank 以掩盖单 bank 的读取延时。通过流水线化对 bank1、bank2、bank3、bank4 发送激活和读取指令，可以实现在多个 bank 之间循环读取，以降低获取数据的总延时。
 
-![Bank pipelining]({{ '/assets/images/mem_study/image-20260411193135763.png' | relative_url }})
+![Bank pipelining](/assets/images/mem_study/image-20260411193135763.png)
 
 一个系统中可能包含多个 DIMM，这些数据完全可以并行访问，以下是一个现代系统中的内存层级：
 
-![Modern memory hierarchy]({{ '/assets/images/mem_study/image-20260411192856208.png' | relative_url }})
+![Modern memory hierarchy](/assets/images/mem_study/image-20260411192856208.png)
 
 ## 1.2 DRAM总线
 
@@ -46,7 +46,7 @@ read_time: 约 19 分钟
 
 专用地址总线将行地址和列地址传送到 DRAM，其宽度随着 DRAM 器件上的物理存储容量而增加。控制总线由行选通信号、列选通信号、输出使能信号、时钟信号、时钟使能信号和其他相关信号组成。这些信号与地址总线信号类似，都从内存控制器连接到系统中的每个 DRAM。最后，还有一个片选网络，从内存控制器连接到一个 rank（一组可单独寻址的 DRAM）中的每个 DRAM。例如，一个内存模块可以包含两个 DRAM rank；对于系统中的每个 DIMM，可能有两个独立的片选网络，因此片选“总线”的规模随系统中的最大物理内存量而扩展。
 
-![JEDEC bus]({{ '/assets/images/mem_study/image-20260411193548511.png' | relative_url }})
+![JEDEC bus](/assets/images/mem_study/image-20260411193548511.png)
 
 最后一条总线，即片选总线，在 JEDEC 风格的存储系统中至关重要，因为它能确定内存请求的目标接收者。在请求发生时，片选总线上会置位一个值。片选总线包含系统中每个 DRAM rank 的独立线路。片选信号通过每条专用于一小组 DRAM 的线路传输，启用或禁用该 rank 中的 DRAM，使它们分别处理总线上当前的请求或忽略总线上当前的请求。因此，只有请求指向的 DRAM 才会处理该请求。尽管系统中的所有 DRAM 都连接到相同的地址和控制总线，理论上可能同时响应相同的请求，但片选总线防止了这种情况的发生。
 
@@ -61,11 +61,11 @@ read_time: 约 19 分钟
 
 字线和位线每个交叉处的电容器都极其微小，所容纳的电子数量相对于那些位线的物理特性而言微乎其微。因此，当这些电容器连接到与其相关的位线时，会使用一种称为感测放大器（sense amplifiers）的特殊电路来检测存储在电容器上的值。感测放大器首先将位线预充电至逻辑电平 0 和逻辑电平 1 之间的中间电压电平。当电容器随后通过晶体管连接到位线时，电容器会使那些位线上的电压电平发生非常微小的变化。感测放大器检测到这些微小变化，并将位线电压完全拉至逻辑电平 0 或 1。与处于高电平和低电平之间的预充电状态不同，将位线上的电压完全拉高或拉低，实际上会在晶体管保持导通的情况下为电容器重新充电。
 
-![Read flow and sense amplifier]({{ '/assets/images/mem_study/image-20260411200322684.png' | relative_url }})
+![Read flow and sense amplifier](/assets/images/mem_study/image-20260411200322684.png)
 
 为什么感测放大器在检测微弱电压变化后会“顺便”给电容器充电？因为当晶体管导通，电容器实际上给位线放电，微弱拉高或拉低了位线电压，此时电容器已经被放电，而当感测放大器检测到之后，把位线拉高到高电平或低电平，位线就会反向给电容器充电。
 
-![Sense amplifier write-back]({{ '/assets/images/mem_study/image-20260411201056340.png' | relative_url }})
+![Sense amplifier write-back](/assets/images/mem_study/image-20260411201056340.png)
 
 总结：**完整的访存操作流程（以读取为例）**
 
@@ -105,7 +105,7 @@ read_time: 约 19 分钟
 
 **评估总结：** DRAM 架构的演进是一个在“性能提升”与“实现成本”之间不断寻找平衡的过程。早期如 FPM、EDO 和 BEDO 等改进，以几乎零成本的微小逻辑修改获得了最高 30% 的性能提升。然而在那之后，为了满足现代处理器对更高吞吐量和更低延迟的要求，所有新的架构提案都需要付出相对高昂的实现成本。
 
-![DRAM evolution summary]({{ '/assets/images/mem_study/image-20260411201831264.png' | relative_url }})
+![DRAM evolution summary](/assets/images/mem_study/image-20260411201831264.png)
 
 ## 1.5 现代DRAM的最新进展
 
