@@ -11,7 +11,7 @@ permalink: /search.json
       "url": {{ post.url | relative_url | jsonify }},
       "kind": "Post",
       "meta": {{ post_meta | strip | jsonify }},
-      "excerpt": {{ post.excerpt | strip_html | strip_newlines | jsonify }}
+      "excerpt": {{ post.description | default: post.excerpt | strip_html | strip_newlines | jsonify }}
     }
     {% assign first = false %}
   {% endfor %}

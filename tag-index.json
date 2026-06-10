@@ -21,7 +21,7 @@ permalink: /tag-index.json
             "categories": {{ post.categories | jsonify }},
             "tags": {{ post.tags | jsonify }},
             "cover_image": {{ post.cover_image | relative_url | jsonify }},
-            "excerpt": {{ post.excerpt | strip_html | strip_newlines | jsonify }},
+            "excerpt": {{ post.description | default: post.excerpt | strip_html | strip_newlines | jsonify }},
             "meta": {{ post_meta | strip | jsonify }}
           }
         {% endfor %}

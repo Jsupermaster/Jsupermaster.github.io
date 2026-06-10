@@ -51,6 +51,7 @@ layout: default
   <section class="post-feed">
     {% for post in site.posts limit: 8 %}
     <article class="feed-card {% if forloop.first %}feed-card-featured{% endif %}">
+      {% assign post_summary = post.description | default: post.excerpt %}
       <div class="feed-meta">
         <span>{{ post.date | date: "%Y-%m-%d" }}</span>
         {% if post.categories.size > 0 %}
@@ -63,7 +64,7 @@ layout: default
         <img class="feed-cover" src="{{ post.cover_image | relative_url }}" alt="{{ post.title }}">
       </a>
       {% endif %}
-      <p class="feed-excerpt">{{ post.excerpt | strip_html | strip_newlines }}</p>
+      <p class="feed-excerpt">{{ post_summary | strip_html | strip_newlines }}</p>
       <div class="feed-footer">
         <div class="chip-row">
           {% for tag in post.tags limit: 3 %}
