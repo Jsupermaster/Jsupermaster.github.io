@@ -29,7 +29,7 @@ layout: default
 </section>
 {% endif %}
 
-<div class="archive-list">
+<div class="archive-list{% if page.archive_filters %} archive-list-with-filter{% endif %}">
   {% for post in site.posts %}
   <article class="feed-card" data-archive-category="{{ post.home_category | default: 'all' }}">
     {% assign post_summary = post.description | default: post.excerpt %}

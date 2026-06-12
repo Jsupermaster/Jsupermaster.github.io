@@ -23,7 +23,7 @@ collections:
     accent_class: collection-memory
 ---
 <section class="archive-header">
-  <p class="section-kicker">合集</p>
+  <p class="section-kicker">COLLECTIONS</p>
   <h1>合集</h1>
   <p class="archive-copy">把围绕同一条主线持续更新的文章组织在一起，方便成体系地阅读。</p>
 </section>
@@ -35,20 +35,23 @@ collections:
   </div>
   <div class="collection-grid">
     {% for collection in page.collections %}
-    {% assign collection_posts = site.posts | where: "collection", collection.slug %}
+    {% assign collection_posts = site.posts | where: "series", collection.slug %}
     <article class="collection-card {{ collection.accent_class }}">
       <div class="collection-card-head">
-        <strong>{{ collection.title }}</strong>
+        <strong><a class="collection-title-link" href="#{{ collection.slug }}">{{ collection.title }}</a></strong>
         <span>{{ collection_posts | size }} 篇文章</span>
       </div>
       <p>{{ collection.description }}</p>
-      <div class="collection-list">
+      <div id="{{ collection.slug }}" class="collection-list">
         {% for post in collection_posts %}
         <a class="collection-post-link" href="{{ post.url | relative_url }}">
           <strong>{{ post.title }}</strong>
           <span>{{ post.date | date: "%Y-%m-%d" }}</span>
         </a>
         {% endfor %}
+        {% if collection_posts.size == 0 %}
+        <div class="collection-empty">这个合集暂时还没有匹配到文章。</div>
+        {% endif %}
       </div>
     </article>
     {% endfor %}

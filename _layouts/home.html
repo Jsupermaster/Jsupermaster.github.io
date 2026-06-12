@@ -49,29 +49,9 @@ layout: default
 
 <div class="blog-layout blog-layout-single">
   <section class="post-feed">
-    <section class="panel-block home-filter-panel">
-      <div class="panel-heading">
-        <h3>文章筛选</h3>
-        <span>默认展示最近 10 篇</span>
-      </div>
-      <div class="home-filter-bar" role="tablist" aria-label="首页文章筛选">
-        {% for item in page.home_filters %}
-        <button
-          class="home-filter-button{% if forloop.first %} is-active{% endif %}"
-          type="button"
-          data-filter-value="{{ item.value }}"
-          role="tab"
-          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-        >
-          {{ item.label }}
-        </button>
-        {% endfor %}
-      </div>
-    </section>
-
-    <div id="home-post-feed" class="post-feed-grid">
+    <div class="post-feed-grid">
       {% for post in site.posts limit: 10 %}
-      <article class="feed-card {% if forloop.first %}feed-card-featured{% endif %}" data-home-category="{{ post.home_category | default: 'all' }}">
+      <article class="feed-card {% if forloop.first %}feed-card-featured{% endif %}">
         {% assign post_summary = post.description | default: post.excerpt %}
         <div class="feed-meta">
           <span>{{ post.date | date: "%Y-%m-%d" }}</span>
@@ -99,30 +79,3 @@ layout: default
     </div>
   </section>
 </div>
-
-<script>
-  (() => {
-    const buttons = Array.from(document.querySelectorAll('.home-filter-button'));
-    const cards = Array.from(document.querySelectorAll('#home-post-feed .feed-card'));
-    if (!buttons.length || !cards.length) return;
-
-    const applyFilter = (value) => {
-      cards.forEach((card) => {
-        const category = card.dataset.homeCategory || 'all';
-        card.hidden = value !== 'all' && category !== value;
-      });
-
-      buttons.forEach((button) => {
-        const isActive = button.dataset.filterValue === value;
-        button.classList.toggle('is-active', isActive);
-        button.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
-    };
-
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => applyFilter(button.dataset.filterValue || 'all'));
-    });
-
-    applyFilter('all');
-  })();
-</script>

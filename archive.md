@@ -12,10 +12,12 @@ archive_filters:
     value: all
   - label: 我的工作
     value: my-work
-  - label: 论文工作
-    value: paper-work
+  - label: 论文阅读
+    value: paper-reading
   - label: 学习笔记
     value: study-notes
+  - label: 读书笔记
+    value: reading-notes
   - label: 工程实践
     value: engineering-practice
 ---

@@ -4,8 +4,8 @@ date: 2025-01-09 20:00:00 +0800
 description: "在前面进行了一系列的铺垫之后，我们终于正式进入到了设计8051处理器的步骤。我们需要设计一个8051的ip核，方便我们之后进行调用。"
 categories:
   - FPGA
-home_category: engineering-practice
-collection: fpga-8051-softcore-design
+home_category: reading-notes
+series: fpga-8051-softcore-design
 tags:
   - FPGA
   - "8051"

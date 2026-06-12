@@ -4,8 +4,8 @@ date: 2025-01-08 20:00:00 +0800
 description: "这部分主要讲述verilog基础语法和开发指南，笔者认为学习这个项目之前都应该已经有verilog基础，所以关于基础语法内容不多赘述，大家可以参见原书，只在这里记录一下笔者觉得看完仍有收获，值得注意的点。"
 categories:
   - FPGA
-home_category: engineering-practice
-collection: fpga-8051-softcore-design
+home_category: reading-notes
+series: fpga-8051-softcore-design
 tags:
   - FPGA
   - "8051"

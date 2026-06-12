@@ -4,8 +4,8 @@ date: 2025-01-06 20:00:00 +0800
 description: "8051指令集是非定长的，有一字节、二字节和三字节三种，其中第一个字节是指令标识，后面的字节是地址或立即数。8051指令集中共包含111条指令。"
 categories:
   - FPGA
-home_category: engineering-practice
-collection: fpga-8051-softcore-design
+home_category: reading-notes
+series: fpga-8051-softcore-design
 tags:
   - FPGA
   - "8051"

@@ -4,8 +4,8 @@ date: 2025-01-10 20:00:00 +0800
 description: "为了充分测试8051的性能，我们需要测试每一条指令。在HELLO文件夹中存放了整个测试的C语言工程文件。主函数存放在指令被分为五大类，和上面一样。"
 categories:
   - FPGA
-home_category: engineering-practice
-collection: fpga-8051-softcore-design
+home_category: reading-notes
+series: fpga-8051-softcore-design
 tags:
   - FPGA
   - "8051"

@@ -4,8 +4,8 @@ date: 2025-01-05 20:00:00 +0800
 description: "8051是一款历史悠久的处理器，诞生于Inter，它是8位处理器，地址位宽16位，64KB指令寻址空间，指令不等长。"
 categories:
   - FPGA
-home_category: engineering-practice
-collection: fpga-8051-softcore-design
+home_category: reading-notes
+series: fpga-8051-softcore-design
 tags:
   - FPGA
   - "8051"

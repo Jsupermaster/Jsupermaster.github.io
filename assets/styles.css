@@ -435,6 +435,10 @@ img {
   gap: 18px;
 }
 
+.archive-list-with-filter {
+  margin-top: 18px;
+}
+
 .feed-card,
 .panel-block,
 .side-card,
@@ -614,6 +618,14 @@ img {
   font-family: "Noto Serif SC", serif;
 }
 
+.collection-title-link {
+  color: inherit;
+}
+
+.collection-title-link:hover {
+  color: var(--primary);
+}
+
 .collection-card-head span {
   color: var(--muted);
   font-size: 0.92rem;
@@ -628,6 +640,14 @@ img {
 .collection-list {
   display: grid;
   gap: 10px;
+}
+
+.collection-empty {
+  padding: 12px 14px;
+  border: 1px dashed rgba(58, 110, 165, 0.2);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--muted);
 }
 
 .collection-post-link {
