@@ -36,77 +36,133 @@ collections:
   <div class="collection-grid">
     {% for collection in page.collections %}
     {% assign collection_posts = site.posts | where: "series", collection.slug %}
-    <article class="collection-card {{ collection.accent_class }}">
-      <button class="collection-toggle" type="button" aria-expanded="false" aria-controls="{{ collection.slug }}">
+    <article class="collection-card {{ collection.accent_class }}" data-collection-column="{% cycle 'left', 'right' %}">
+      <button
+        class="collection-toggle"
+        type="button"
+        aria-expanded="false"
+        data-collection-title="{{ collection.title | escape }}"
+        data-collection-description="{{ collection.description | escape }}"
+        data-collection-count="{{ collection_posts | size }}"
+        data-collection-accent="{{ collection.accent_class }}"
+        data-collection-side="{% cycle 'right', 'left' %}"
+      >
         <div class="collection-card-head">
           <strong>{{ collection.title }}</strong>
           <span>{{ collection_posts | size }} 篇文章</span>
         </div>
         <p>{{ collection.description }}</p>
       </button>
-      <div id="{{ collection.slug }}" class="collection-list" aria-hidden="true">
-        {% for post in collection_posts %}
-        <a class="collection-post-link" href="{{ post.url | relative_url }}">
-          <strong>{{ post.title }}</strong>
-          <span>{{ post.date | date: "%Y-%m-%d" }}</span>
-        </a>
-        {% endfor %}
-        {% if collection_posts.size == 0 %}
-        <div class="collection-empty">这个合集暂时还没有匹配到文章。</div>
+      <template>
+        {% if collection_posts.size > 0 %}
+          {% for post in collection_posts %}
+          <a class="collection-post-link" href="{{ post.url | relative_url }}">
+            <strong>{{ post.title }}</strong>
+            <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+          </a>
+          {% endfor %}
+        {% else %}
+          <div class="collection-empty">这个合集暂时还没有匹配到文章。</div>
         {% endif %}
-      </div>
+      </template>
     </article>
     {% endfor %}
   </div>
 </section>
 
+<div id="collection-overlay" class="collection-overlay" hidden>
+  <button class="collection-overlay-backdrop" type="button" aria-label="关闭合集目录"></button>
+  <section id="collection-panel" class="collection-panel" aria-hidden="true">
+    <div class="collection-panel-inner">
+      <div class="collection-panel-header">
+        <div class="collection-panel-heading">
+          <p class="section-kicker collection-panel-kicker">COLLECTION</p>
+          <h2 id="collection-panel-title"></h2>
+          <p id="collection-panel-description" class="collection-panel-copy"></p>
+        </div>
+        <div class="collection-panel-actions">
+          <span id="collection-panel-count" class="collection-panel-count"></span>
+          <button id="collection-panel-close" class="collection-panel-close" type="button" aria-label="关闭合集目录">×</button>
+        </div>
+      </div>
+      <div id="collection-panel-list" class="collection-panel-list"></div>
+    </div>
+  </section>
+</div>
+
 <script>
   (() => {
     const toggles = Array.from(document.querySelectorAll('.collection-toggle'));
-    if (!toggles.length) return;
+    const overlay = document.getElementById('collection-overlay');
+    const panel = document.getElementById('collection-panel');
+    const title = document.getElementById('collection-panel-title');
+    const description = document.getElementById('collection-panel-description');
+    const count = document.getElementById('collection-panel-count');
+    const list = document.getElementById('collection-panel-list');
+    const closeButton = document.getElementById('collection-panel-close');
+    const backdrop = document.querySelector('.collection-overlay-backdrop');
+    if (!toggles.length || !overlay || !panel || !title || !description || !count || !list || !closeButton || !backdrop) return;
+
+    let activeToggle = null;
+
+    const closePanel = () => {
+      overlay.classList.remove('is-open');
+      panel.classList.remove('is-open', 'panel-left', 'panel-right');
+      panel.setAttribute('aria-hidden', 'true');
+      toggles.forEach((toggle) => toggle.setAttribute('aria-expanded', 'false'));
+      document.body.classList.remove('collection-open');
+      activeToggle = null;
+
+      window.setTimeout(() => {
+        if (!overlay.classList.contains('is-open')) {
+          overlay.hidden = true;
+          list.innerHTML = '';
+        }
+      }, 260);
+    };
+
+    const openPanel = (toggle) => {
+      const template = toggle.parentElement.querySelector('template');
+      if (!template) return;
+
+      activeToggle = toggle;
+      toggles.forEach((item) => item.setAttribute('aria-expanded', item === toggle ? 'true' : 'false'));
+
+      title.textContent = toggle.dataset.collectionTitle || '';
+      description.textContent = toggle.dataset.collectionDescription || '';
+      count.textContent = `${toggle.dataset.collectionCount || '0'} 篇文章`;
+      list.innerHTML = template.innerHTML;
+
+      panel.className = 'collection-panel';
+      panel.classList.add(toggle.dataset.collectionAccent || '', toggle.dataset.collectionSide === 'left' ? 'panel-left' : 'panel-right');
+
+      overlay.hidden = false;
+      requestAnimationFrame(() => {
+        document.body.classList.add('collection-open');
+        overlay.classList.add('is-open');
+        panel.classList.add('is-open');
+        panel.setAttribute('aria-hidden', 'false');
+      });
+    };
 
     toggles.forEach((toggle) => {
       toggle.addEventListener('click', () => {
-        const targetId = toggle.getAttribute('aria-controls');
-        const panel = targetId ? document.getElementById(targetId) : null;
-        if (!panel) return;
-
-        const expanded = toggle.getAttribute('aria-expanded') === 'true';
-        const getTargetHeight = (element) => Math.min(element.scrollHeight, 360);
-
-        toggles.forEach((item) => {
-          const itemTargetId = item.getAttribute('aria-controls');
-          const itemPanel = itemTargetId ? document.getElementById(itemTargetId) : null;
-          item.setAttribute('aria-expanded', 'false');
-          item.closest('.collection-card')?.classList.remove('is-open');
-          if (itemPanel) {
-            itemPanel.style.maxHeight = `${getTargetHeight(itemPanel)}px`;
-            itemPanel.classList.remove('is-open');
-            requestAnimationFrame(() => {
-              itemPanel.style.maxHeight = '0px';
-            });
-            itemPanel.setAttribute('aria-hidden', 'true');
-          }
-        });
-
-        if (!expanded) {
-          toggle.setAttribute('aria-expanded', 'true');
-          toggle.closest('.collection-card')?.classList.add('is-open');
-          panel.classList.add('is-open');
-          panel.setAttribute('aria-hidden', 'false');
-          panel.style.maxHeight = `${getTargetHeight(panel)}px`;
+        if (activeToggle === toggle && overlay.classList.contains('is-open')) {
+          closePanel();
+          return;
         }
+
+        openPanel(toggle);
       });
     });
 
-    window.addEventListener('resize', () => {
-      toggles.forEach((toggle) => {
-        if (toggle.getAttribute('aria-expanded') !== 'true') return;
-        const targetId = toggle.getAttribute('aria-controls');
-        const panel = targetId ? document.getElementById(targetId) : null;
-        if (!panel) return;
-        panel.style.maxHeight = `${Math.min(panel.scrollHeight, 360)}px`;
-      });
+    closeButton.addEventListener('click', closePanel);
+    backdrop.addEventListener('click', closePanel);
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+        closePanel();
+      }
     });
   })();
 </script>
