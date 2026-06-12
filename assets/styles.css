@@ -443,6 +443,52 @@ img {
   margin-top: 18px;
 }
 
+.archive-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.archive-page-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.archive-page-button {
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(58, 110, 165, 0.16);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.archive-page-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(58, 110, 165, 0.3);
+  box-shadow: 0 10px 18px rgba(58, 110, 165, 0.08);
+}
+
+.archive-page-button.is-active {
+  border-color: transparent;
+  background: linear-gradient(135deg, #37628f, #4d82ba);
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(58, 110, 165, 0.16);
+}
+
+.archive-page-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .feed-card,
 .panel-block,
 .side-card,

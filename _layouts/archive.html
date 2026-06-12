@@ -53,24 +53,108 @@ layout: default
   {% endfor %}
 </div>
 
+<nav id="archive-pagination" class="archive-pagination" aria-label="分类页分页"></nav>
+
 {% if page.archive_filters %}
 <script>
   (() => {
     const buttons = Array.from(document.querySelectorAll('[data-archive-filter]'));
     const cards = Array.from(document.querySelectorAll('[data-archive-category]'));
-    if (!buttons.length || !cards.length) return;
+    const pagination = document.getElementById('archive-pagination');
+    if (!buttons.length || !cards.length || !pagination) return;
+
+    const PAGE_SIZE = 10;
+    let activeFilter = 'all';
+    let currentPage = 1;
+
+    const getFilteredCards = (value) => cards.filter((card) => {
+      const category = card.dataset.archiveCategory || 'all';
+      return value === 'all' || category === value;
+    });
+
+    const renderPagination = (totalPages) => {
+      if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        pagination.hidden = true;
+        return;
+      }
+
+      const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+      pagination.hidden = false;
+      pagination.innerHTML = `
+        <button class="archive-page-button" type="button" data-page-nav="prev" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>
+        <div class="archive-page-list">
+          ${pages.map((page) => `
+            <button
+              class="archive-page-button${page === currentPage ? ' is-active' : ''}"
+              type="button"
+              data-page-number="${page}"
+              aria-current="${page === currentPage ? 'page' : 'false'}"
+            >
+              ${page}
+            </button>
+          `).join('')}
+        </div>
+        <button class="archive-page-button" type="button" data-page-nav="next" ${currentPage === totalPages ? 'disabled' : ''}>下一页</button>
+      `;
+
+      Array.from(pagination.querySelectorAll('[data-page-number]')).forEach((button) => {
+        button.addEventListener('click', () => {
+          currentPage = Number(button.dataset.pageNumber || '1');
+          updateView();
+        });
+      });
+
+      const prev = pagination.querySelector('[data-page-nav="prev"]');
+      const next = pagination.querySelector('[data-page-nav="next"]');
+      if (prev) {
+        prev.addEventListener('click', () => {
+          if (currentPage > 1) {
+            currentPage -= 1;
+            updateView();
+          }
+        });
+      }
+      if (next) {
+        next.addEventListener('click', () => {
+          if (currentPage < totalPages) {
+            currentPage += 1;
+            updateView();
+          }
+        });
+      }
+    };
+
+    const updateView = () => {
+      const filteredCards = getFilteredCards(activeFilter);
+      const totalPages = Math.max(1, Math.ceil(filteredCards.length / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const endIndex = startIndex + PAGE_SIZE;
+
+      cards.forEach((card) => {
+        card.hidden = true;
+      });
+
+      filteredCards.forEach((card, index) => {
+        card.hidden = index < startIndex || index >= endIndex;
+      });
+
+      renderPagination(totalPages);
+    };
 
     const applyFilter = (value) => {
-      cards.forEach((card) => {
-        const category = card.dataset.archiveCategory || 'all';
-        card.hidden = value !== 'all' && category !== value;
-      });
+      activeFilter = value;
+      currentPage = 1;
 
       buttons.forEach((button) => {
         const isActive = button.dataset.archiveFilter === value;
         button.classList.toggle('is-active', isActive);
         button.setAttribute('aria-selected', isActive ? 'true' : 'false');
       });
+
+      updateView();
     };
 
     buttons.forEach((button) => {
