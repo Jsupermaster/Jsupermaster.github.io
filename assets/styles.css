@@ -1341,6 +1341,7 @@ img {
   max-width: 980px;
   margin: 0 auto;
   width: 100%;
+  min-width: 0;
 }
 
 .post-main-body {
@@ -1348,6 +1349,7 @@ img {
   border-radius: 22px;
   background: var(--surface);
   box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
 .post-hero h1 {
@@ -1400,6 +1402,13 @@ img {
   display: grid;
   gap: 18px;
   margin-top: 18px;
+  min-width: 0;
+  width: 100%;
+}
+
+.post-content > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .post-content h2,
@@ -1421,6 +1430,7 @@ img {
 
 .post-content table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   margin-top: 14px;
   overflow: hidden;
@@ -1453,6 +1463,7 @@ img {
 
 .post-content mjx-container {
   color: var(--text);
+  max-width: 100%;
 }
 
 .post-content mjx-container[display="true"] {
@@ -1477,10 +1488,13 @@ img {
   background: var(--primary-soft);
   color: #275784;
   font-family: Consolas, "Courier New", monospace;
+  word-break: break-word;
 }
 
 .post-content pre {
   margin: 0;
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   padding: 16px 18px;
   border-radius: 14px;
@@ -1491,17 +1505,40 @@ img {
 }
 
 .post-content pre code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
   padding: 0;
   background: transparent;
   color: inherit;
+  word-break: normal;
+  white-space: pre;
 }
 
 .post-content .highlight {
   margin: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
 }
 
 .post-content .highlight pre {
   margin: 0;
+  min-width: 0;
+}
+
+.post-content p img,
+.post-content > img,
+.post-content li img,
+.post-content blockquote img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #f4f7fb;
 }
 
 .post-content .highlight .c,
