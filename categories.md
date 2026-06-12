@@ -37,12 +37,14 @@ collections:
     {% for collection in page.collections %}
     {% assign collection_posts = site.posts | where: "series", collection.slug %}
     <article class="collection-card {{ collection.accent_class }}">
-      <div class="collection-card-head">
-        <strong><a class="collection-title-link" href="#{{ collection.slug }}">{{ collection.title }}</a></strong>
-        <span>{{ collection_posts | size }} 篇文章</span>
-      </div>
-      <p>{{ collection.description }}</p>
-      <div id="{{ collection.slug }}" class="collection-list">
+      <button class="collection-toggle" type="button" aria-expanded="false" aria-controls="{{ collection.slug }}">
+        <div class="collection-card-head">
+          <strong>{{ collection.title }}</strong>
+          <span>{{ collection_posts | size }} 篇文章</span>
+        </div>
+        <p>{{ collection.description }}</p>
+      </button>
+      <div id="{{ collection.slug }}" class="collection-list" aria-hidden="true">
         {% for post in collection_posts %}
         <a class="collection-post-link" href="{{ post.url | relative_url }}">
           <strong>{{ post.title }}</strong>
@@ -57,3 +59,50 @@ collections:
     {% endfor %}
   </div>
 </section>
+
+<script>
+  (() => {
+    const toggles = Array.from(document.querySelectorAll('.collection-toggle'));
+    if (!toggles.length) return;
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const targetId = toggle.getAttribute('aria-controls');
+        const panel = targetId ? document.getElementById(targetId) : null;
+        if (!panel) return;
+
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+
+        toggles.forEach((item) => {
+          const itemTargetId = item.getAttribute('aria-controls');
+          const itemPanel = itemTargetId ? document.getElementById(itemTargetId) : null;
+          item.setAttribute('aria-expanded', 'false');
+          item.closest('.collection-card')?.classList.remove('is-open');
+          if (itemPanel) {
+            itemPanel.classList.remove('is-open');
+            itemPanel.style.maxHeight = '0px';
+            itemPanel.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        if (!expanded) {
+          toggle.setAttribute('aria-expanded', 'true');
+          toggle.closest('.collection-card')?.classList.add('is-open');
+          panel.classList.add('is-open');
+          panel.setAttribute('aria-hidden', 'false');
+          panel.style.maxHeight = `${panel.scrollHeight}px`;
+        }
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      toggles.forEach((toggle) => {
+        if (toggle.getAttribute('aria-expanded') !== 'true') return;
+        const targetId = toggle.getAttribute('aria-controls');
+        const panel = targetId ? document.getElementById(targetId) : null;
+        if (!panel) return;
+        panel.style.maxHeight = `${panel.scrollHeight}px`;
+      });
+    });
+  })();
+</script>

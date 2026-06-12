@@ -162,6 +162,7 @@ layout: default
 
     tocNav.innerHTML = renderNodes(tree);
     toc.hidden = false;
+    toc.classList.add('is-collapsed');
 
     const tocLinks = Array.from(tocNav.querySelectorAll('.post-toc-link'));
     const tocItems = Array.from(tocNav.querySelectorAll('.post-toc-item'));
@@ -175,6 +176,14 @@ layout: default
       toc.classList.toggle('is-open', shouldOpen);
       tocTrigger.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
       tocBackdrop.hidden = !shouldOpen;
+    };
+
+    const setDesktopOpen = (open) => {
+      if (toc.classList.contains('is-compact')) return;
+      toc.classList.toggle('is-collapsed', !open);
+      toc.classList.toggle('is-open', open);
+      tocTrigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      tocBackdrop.hidden = true;
     };
 
     const setBranchExpanded = (item, expanded) => {
@@ -220,8 +229,8 @@ layout: default
       }
 
       toc.style.setProperty('--post-toc-width', `${Math.min(MAX_TOC_WIDTH, availableWidth)}px`);
-      tocTrigger.hidden = true;
-      setCompactOpen(false);
+      tocTrigger.hidden = false;
+      setDesktopOpen(false);
     };
 
     const setActive = (id) => {
@@ -264,10 +273,19 @@ layout: default
       if (link && toc.classList.contains('is-compact')) {
         setCompactOpen(false);
       }
+
+      if (link && !toc.classList.contains('is-compact')) {
+        setDesktopOpen(false);
+      }
     });
 
     tocTrigger.addEventListener('click', () => {
-      setCompactOpen(!toc.classList.contains('is-open'));
+      if (toc.classList.contains('is-compact')) {
+        setCompactOpen(!toc.classList.contains('is-open'));
+        return;
+      }
+
+      setDesktopOpen(toc.classList.contains('is-collapsed'));
     });
 
     tocBackdrop.addEventListener('click', () => {
@@ -275,8 +293,12 @@ layout: default
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && toc.classList.contains('is-open')) {
+      if (event.key !== 'Escape') return;
+
+      if (toc.classList.contains('is-compact') && toc.classList.contains('is-open')) {
         setCompactOpen(false);
+      } else if (!toc.classList.contains('is-compact') && !toc.classList.contains('is-collapsed')) {
+        setDesktopOpen(false);
       }
     });
 

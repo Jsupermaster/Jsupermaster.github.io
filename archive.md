@@ -14,6 +14,8 @@ archive_filters:
     value: my-work
   - label: 论文阅读
     value: paper-reading
+  - label: 随笔评论
+    value: essay-comments
   - label: 学习笔记
     value: study-notes
   - label: 读书笔记
