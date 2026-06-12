@@ -81,7 +81,6 @@ collections:
           <p id="collection-panel-description" class="collection-panel-copy"></p>
         </div>
         <div class="collection-panel-actions">
-          <span id="collection-panel-count" class="collection-panel-count"></span>
           <button id="collection-panel-close" class="collection-panel-close" type="button" aria-label="关闭合集目录">×</button>
         </div>
       </div>
@@ -97,17 +96,16 @@ collections:
     const panel = document.getElementById('collection-panel');
     const title = document.getElementById('collection-panel-title');
     const description = document.getElementById('collection-panel-description');
-    const count = document.getElementById('collection-panel-count');
     const list = document.getElementById('collection-panel-list');
     const closeButton = document.getElementById('collection-panel-close');
     const backdrop = document.querySelector('.collection-overlay-backdrop');
-    if (!toggles.length || !overlay || !panel || !title || !description || !count || !list || !closeButton || !backdrop) return;
+    if (!toggles.length || !overlay || !panel || !title || !description || !list || !closeButton || !backdrop) return;
 
     let activeToggle = null;
 
     const closePanel = () => {
       overlay.classList.remove('is-open');
-      panel.classList.remove('is-open', 'panel-left', 'panel-right');
+      panel.classList.remove('is-open');
       panel.setAttribute('aria-hidden', 'true');
       toggles.forEach((toggle) => toggle.setAttribute('aria-expanded', 'false'));
       document.body.classList.remove('collection-open');
@@ -115,6 +113,7 @@ collections:
 
       window.setTimeout(() => {
         if (!overlay.classList.contains('is-open')) {
+          panel.classList.remove('panel-left', 'panel-right', 'collection-pim', 'collection-fpga', 'collection-gem5', 'collection-memory');
           overlay.hidden = true;
           list.innerHTML = '';
         }
@@ -130,7 +129,6 @@ collections:
 
       title.textContent = toggle.dataset.collectionTitle || '';
       description.textContent = toggle.dataset.collectionDescription || '';
-      count.textContent = `${toggle.dataset.collectionCount || '0'} 篇文章`;
       list.innerHTML = template.innerHTML;
 
       panel.className = 'collection-panel';
