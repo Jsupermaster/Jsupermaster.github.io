@@ -4,6 +4,8 @@ date: 2026-04-17 21:00:00 +0800
 description: 从 DRAM 层级、总线、典型读取流程到现代 DRAM 演进，简要介绍DRAM的基础信息。
 categories:
   - Computer Architecture
+home_category: study-notes
+collection: memory-and-systems
 tags:
   - Computer Architecture
   - DRAM

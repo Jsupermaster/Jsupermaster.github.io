@@ -7,9 +7,31 @@ layout: default
   <p class="archive-copy">{{ page.hero_subtitle }}</p>
 </section>
 
+{% if page.archive_filters %}
+<section class="panel-block archive-filter-panel">
+  <div class="panel-heading">
+    <h3>按内容类型筛选</h3>
+    <span>单选切换</span>
+  </div>
+  <div class="home-filter-bar" role="tablist" aria-label="分类页文章筛选">
+    {% for item in page.archive_filters %}
+    <button
+      class="home-filter-button{% if forloop.first %} is-active{% endif %}"
+      type="button"
+      data-archive-filter="{{ item.value }}"
+      role="tab"
+      aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+    >
+      {{ item.label }}
+    </button>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 <div class="archive-list">
   {% for post in site.posts %}
-  <article class="feed-card">
+  <article class="feed-card" data-archive-category="{{ post.home_category | default: 'all' }}">
     {% assign post_summary = post.description | default: post.excerpt %}
     <div class="feed-meta">
       <span>{{ post.date | date: "%Y-%m-%d" }}</span>
@@ -30,3 +52,32 @@ layout: default
   </article>
   {% endfor %}
 </div>
+
+{% if page.archive_filters %}
+<script>
+  (() => {
+    const buttons = Array.from(document.querySelectorAll('[data-archive-filter]'));
+    const cards = Array.from(document.querySelectorAll('[data-archive-category]'));
+    if (!buttons.length || !cards.length) return;
+
+    const applyFilter = (value) => {
+      cards.forEach((card) => {
+        const category = card.dataset.archiveCategory || 'all';
+        card.hidden = value !== 'all' && category !== value;
+      });
+
+      buttons.forEach((button) => {
+        const isActive = button.dataset.archiveFilter === value;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => applyFilter(button.dataset.archiveFilter || 'all'));
+    });
+
+    applyFilter('all');
+  })();
+</script>
+{% endif %}

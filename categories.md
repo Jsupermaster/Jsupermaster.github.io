@@ -1,40 +1,56 @@
 ---
 layout: default
 nav: categories
-title: 分类
-description: 浏览博客的主要主题方向。
+title: 合集
+description: 浏览围绕同一主题持续整理的系列内容。
 permalink: /categories/index.html
-topics:
-  - title: 最新工作
-    description: 我最近的论文、项目与开源工作。
-    href: /blog/Latest_Work/index.html
-  - title: 计算机体系结构
-    description: 体系结构基础、理解与工具链实践。
-    href: /blog/Computer_Architecture/index.html
-  - title: PIM/PNM
-    description: 近存计算相关论文、工具链与架构设计。
-    href: /blog/PIM/index.html
-  - title: AI 加速器
-    description: AI 加速器的最新进展与开源工作。
-    href: /blog/AI_Accelerator/index.html
+collections:
+  - title: PIM论文阅读
+    slug: pim-paper-reading
+    description: 聚合 PIM/PNM 方向的论文精读、综述整理与趋势观察。
+    accent_class: collection-pim
+  - title: FPGA 8051软核处理器设计实战
+    slug: fpga-8051-softcore-design
+    description: 记录 8051 软核处理器从基础理解到 Verilog 设计与验证的完整过程。
+    accent_class: collection-fpga
+  - title: Gem5全系统仿真运行实录
+    slug: gem5-full-system-notes
+    description: 覆盖简易 SoC 搭建、Linux 启动与系统级调试的 Gem5 实践记录。
+    accent_class: collection-gem5
+  - title: 内存与系统
+    slug: memory-and-systems
+    description: 聚焦 DRAM、系统集成与内存层次相关的学习整理。
+    accent_class: collection-memory
 ---
 <section class="archive-header">
-  <p class="section-kicker">分类</p>
-  <h1>分类</h1>
-  <p class="archive-copy">浏览这个博客当前覆盖的主要主题方向。</p>
+  <p class="section-kicker">合集</p>
+  <h1>合集</h1>
+  <p class="archive-copy">把围绕同一条主线持续更新的文章组织在一起，方便成体系地阅读。</p>
 </section>
 
 <section class="panel-block">
   <div class="panel-heading">
-    <h3>当前方向</h3>
-    <span>主要主题</span>
+    <h3>全部合集</h3>
+    <span>{{ page.collections | size }} 个主题系列</span>
   </div>
-  <div class="topic-grid">
-    {% for topic in page.topics %}
-    <a class="topic-card" href="{{ topic.href | relative_url }}">
-      <strong>{{ topic.title }}</strong>
-      <span>{{ topic.description }}</span>
-    </a>
+  <div class="collection-grid">
+    {% for collection in page.collections %}
+    {% assign collection_posts = site.posts | where: "collection", collection.slug %}
+    <article class="collection-card {{ collection.accent_class }}">
+      <div class="collection-card-head">
+        <strong>{{ collection.title }}</strong>
+        <span>{{ collection_posts | size }} 篇文章</span>
+      </div>
+      <p>{{ collection.description }}</p>
+      <div class="collection-list">
+        {% for post in collection_posts %}
+        <a class="collection-post-link" href="{{ post.url | relative_url }}">
+          <strong>{{ post.title }}</strong>
+          <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </article>
     {% endfor %}
   </div>
 </section>

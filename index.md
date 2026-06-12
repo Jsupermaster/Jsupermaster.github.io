@@ -9,21 +9,19 @@ hero_subtitle: 持续关注体系结构与芯片设计最新进展。Keep track 
 hero_background: /assets/images/site/home-hero.jpg
 hero_meta:
   - 学习日志
-  - 最新工作
+  - 我的工作
   - 论文阅读
-topics:
-  - title: Latest Work
-    description: 我的最新工作，包括论文与开源项目
-    href: /blog/Latest_Work/index.html
-  - title: Computer Architecture
-    description: 体系结构知识理解、工具链使用
-    href: /blog/Computer_Architecture/index.html
-  - title: PIM/PNM
-    description: 近存计算论文阅读、工具链使用、架构设计
-    href: /blog/PIM/index.html
-  - title: AI Accelerator
-    description: AI加速最新进展、开源工作
-    href: /blog/AI_Accelerator/index.html
+home_filters:
+  - label: 全部
+    value: all
+  - label: 我的工作
+    value: my-work
+  - label: 论文工作
+    value: paper-work
+  - label: 学习笔记
+    value: study-notes
+  - label: 工程实践
+    value: engineering-practice
 about_text: Jia Yutong's personal blog. I graduated from JLU EE and am currently a phd student at ICT. My research interests focus on PIM/PNM Architecture, Computer Architecture, and the AI processor architecture.
 topic_tags:
   - Computer Architecture

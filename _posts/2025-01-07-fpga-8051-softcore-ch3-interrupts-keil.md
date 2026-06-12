@@ -4,6 +4,8 @@ date: 2025-01-07 20:00:00 +0800
 description: "关于keil，大家都并不陌生，它是开发51单片机和ARM架构的32单片机的有力工具。关于下载安装方法这里不多赘述，请参阅其他文章。需要注意的是：keil分为ARM和C51版本，我们需要安装C51的版本。"
 categories:
   - FPGA
+home_category: engineering-practice
+collection: fpga-8051-softcore-design
 tags:
   - FPGA
   - "8051"

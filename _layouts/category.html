@@ -7,7 +7,11 @@ layout: default
   <p class="archive-copy">{{ page.description }}</p>
 </section>
 
-{% assign filtered_posts = site.posts | where_exp: "post", "post.categories contains page.filter_category" %}
+{% if page.filter_home_category %}
+  {% assign filtered_posts = site.posts | where: "home_category", page.filter_home_category %}
+{% else %}
+  {% assign filtered_posts = site.posts | where_exp: "post", "post.categories contains page.filter_category" %}
+{% endif %}
 
 <div class="archive-list">
   {% if filtered_posts.size > 0 %}
@@ -36,11 +40,11 @@ layout: default
     <section class="panel-block">
       <div class="panel-heading">
         <h3>内容准备中</h3>
-        <span>{{ page.filter_category }}</span>
+        <span>{{ page.filter_home_category | default: page.filter_category }}</span>
       </div>
       <p class="feed-excerpt">
         这个分类页已经创建完成。后续只要在文章的 front matter 中写入
-        <code>{{ page.filter_category }}</code> 这个分类，这里就会自动显示相关文章。
+        <code>{{ page.filter_home_category | default: page.filter_category }}</code> 这个分类，这里就会自动显示相关文章。
       </p>
     </section>
   {% endif %}

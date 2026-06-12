@@ -4,6 +4,8 @@ date: 2026-04-20 19:30:00 +0800
 description: 从软件模拟器、RTL 仿真到 SPICE 仿真，梳理 DRAM 研究与 PIM 系统设计中常见的建模、验证与集成路径。
 categories:
   - Computer Architecture
+home_category: study-notes
+collection: memory-and-systems
 tags:
   - Computer Architecture
   - DRAM
