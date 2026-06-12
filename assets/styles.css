@@ -445,30 +445,53 @@ img {
 
 .archive-pagination {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.archive-pagination-shell {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 12px;
-  margin-top: 22px;
+  padding: 10px 14px;
+  border: 1px solid rgba(58, 110, 165, 0.12);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(244, 248, 253, 0.96));
+  box-shadow: 0 12px 24px rgba(24, 41, 62, 0.06);
 }
 
 .archive-page-list {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
 }
 
 .archive-page-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 42px;
-  min-height: 42px;
+  height: 42px;
   padding: 0 14px;
   border: 1px solid rgba(58, 110, 165, 0.16);
   border-radius: 999px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.92);
   color: var(--primary);
   font-weight: 700;
+  line-height: 1;
   cursor: pointer;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.archive-page-arrow {
+  min-width: 42px;
+  padding: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
 .archive-page-button:hover:not(:disabled) {

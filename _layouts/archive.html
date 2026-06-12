@@ -82,20 +82,22 @@ layout: default
       const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
       pagination.hidden = false;
       pagination.innerHTML = `
-        <button class="archive-page-button" type="button" data-page-nav="prev" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>
-        <div class="archive-page-list">
-          ${pages.map((page) => `
-            <button
-              class="archive-page-button${page === currentPage ? ' is-active' : ''}"
-              type="button"
-              data-page-number="${page}"
-              aria-current="${page === currentPage ? 'page' : 'false'}"
-            >
-              ${page}
-            </button>
-          `).join('')}
+        <div class="archive-pagination-shell">
+          <button class="archive-page-button archive-page-arrow" type="button" data-page-nav="prev" aria-label="上一页" title="上一页" ${currentPage === 1 ? 'disabled' : ''}>‹</button>
+          <div class="archive-page-list">
+            ${pages.map((page) => `
+              <button
+                class="archive-page-button${page === currentPage ? ' is-active' : ''}"
+                type="button"
+                data-page-number="${page}"
+                aria-current="${page === currentPage ? 'page' : 'false'}"
+              >
+                ${page}
+              </button>
+            `).join('')}
+          </div>
+          <button class="archive-page-button archive-page-arrow" type="button" data-page-nav="next" aria-label="下一页" title="下一页" ${currentPage === totalPages ? 'disabled' : ''}>›</button>
         </div>
-        <button class="archive-page-button" type="button" data-page-nav="next" ${currentPage === totalPages ? 'disabled' : ''}>下一页</button>
       `;
 
       Array.from(pagination.querySelectorAll('[data-page-number]')).forEach((button) => {
