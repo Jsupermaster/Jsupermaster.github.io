@@ -1350,6 +1350,42 @@ img {
   line-height: 1.9;
 }
 
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.post-content thead tr {
+  background: #f4f8fc;
+}
+
+.post-content th,
+.post-content td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+  color: #495a6d;
+}
+
+.post-content th {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.post-content tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.post-content .MathJax {
+  font-size: 1.02em !important;
+}
+
 .post-content li + li {
   margin-top: 8px;
 }
