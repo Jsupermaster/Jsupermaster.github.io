@@ -1484,13 +1484,112 @@ img {
   overflow-x: auto;
   padding: 16px 18px;
   border-radius: 14px;
-  background: #18283b;
+  border: 1px solid rgba(132, 164, 201, 0.16);
+  background: #162334;
   color: #eef5ff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .post-content pre code {
   padding: 0;
   background: transparent;
+  color: inherit;
+}
+
+.post-content .highlight {
+  margin: 0;
+}
+
+.post-content .highlight pre {
+  margin: 0;
+}
+
+.post-content .highlight .c,
+.post-content .highlight .cm,
+.post-content .highlight .c1,
+.post-content .highlight .cs {
+  color: #7f93ab;
+  font-style: italic;
+}
+
+.post-content .highlight .cp,
+.post-content .highlight .nt,
+.post-content .highlight .nn,
+.post-content .highlight .nc,
+.post-content .highlight .nd {
+  color: #8cc8ff;
+}
+
+.post-content .highlight .k,
+.post-content .highlight .kd,
+.post-content .highlight .kn,
+.post-content .highlight .kp,
+.post-content .highlight .kr,
+.post-content .highlight .kt {
+  color: #ffb86c;
+}
+
+.post-content .highlight .s,
+.post-content .highlight .sa,
+.post-content .highlight .sb,
+.post-content .highlight .sc,
+.post-content .highlight .sd,
+.post-content .highlight .s1,
+.post-content .highlight .s2,
+.post-content .highlight .se,
+.post-content .highlight .sh,
+.post-content .highlight .si,
+.post-content .highlight .sx {
+  color: #a8e6a1;
+}
+
+.post-content .highlight .m,
+.post-content .highlight .mf,
+.post-content .highlight .mh,
+.post-content .highlight .mi,
+.post-content .highlight .il,
+.post-content .highlight .mo {
+  color: #8be9fd;
+}
+
+.post-content .highlight .n,
+.post-content .highlight .na,
+.post-content .highlight .nb,
+.post-content .highlight .bp,
+.post-content .highlight .nf,
+.post-content .highlight .fm,
+.post-content .highlight .nv,
+.post-content .highlight .vc,
+.post-content .highlight .vg,
+.post-content .highlight .vi,
+.post-content .highlight .vm {
+  color: #eef5ff;
+}
+
+.post-content .highlight .nf,
+.post-content .highlight .fm {
+  color: #ffd580;
+}
+
+.post-content .highlight .o,
+.post-content .highlight .ow {
+  color: #f6d06f;
+}
+
+.post-content .highlight .p {
+  color: #d7e4f3;
+}
+
+.post-content .highlight .err,
+.post-content .highlight .gd {
+  color: #ff8d8d;
+}
+
+.post-content .highlight .gi {
+  color: #8fd8a8;
+}
+
+.post-content .highlight .w {
   color: inherit;
 }
 
