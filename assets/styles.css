@@ -1368,7 +1368,7 @@ img {
 .post-content td {
   padding: 12px 14px;
   border-bottom: 1px solid var(--line);
-  text-align: left;
+  text-align: center;
   vertical-align: middle;
   color: #495a6d;
 }
@@ -1382,8 +1382,20 @@ img {
   border-bottom: 0;
 }
 
-.post-content .MathJax {
-  font-size: 1.02em !important;
+.post-content mjx-container {
+  color: var(--text);
+}
+
+.post-content mjx-container[display="true"] {
+  margin: 18px 0 !important;
+  text-align: center !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 0;
+}
+
+.post-content mjx-container[display="true"] svg {
+  max-width: 100%;
 }
 
 .post-content li + li {
