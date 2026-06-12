@@ -72,6 +72,7 @@ collections:
         if (!panel) return;
 
         const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        const getTargetHeight = (element) => Math.min(element.scrollHeight, 360);
 
         toggles.forEach((item) => {
           const itemTargetId = item.getAttribute('aria-controls');
@@ -79,8 +80,11 @@ collections:
           item.setAttribute('aria-expanded', 'false');
           item.closest('.collection-card')?.classList.remove('is-open');
           if (itemPanel) {
+            itemPanel.style.maxHeight = `${getTargetHeight(itemPanel)}px`;
             itemPanel.classList.remove('is-open');
-            itemPanel.style.maxHeight = '0px';
+            requestAnimationFrame(() => {
+              itemPanel.style.maxHeight = '0px';
+            });
             itemPanel.setAttribute('aria-hidden', 'true');
           }
         });
@@ -90,7 +94,7 @@ collections:
           toggle.closest('.collection-card')?.classList.add('is-open');
           panel.classList.add('is-open');
           panel.setAttribute('aria-hidden', 'false');
-          panel.style.maxHeight = `${panel.scrollHeight}px`;
+          panel.style.maxHeight = `${getTargetHeight(panel)}px`;
         }
       });
     });
@@ -101,7 +105,7 @@ collections:
         const targetId = toggle.getAttribute('aria-controls');
         const panel = targetId ? document.getElementById(targetId) : null;
         if (!panel) return;
-        panel.style.maxHeight = `${panel.scrollHeight}px`;
+        panel.style.maxHeight = `${Math.min(panel.scrollHeight, 360)}px`;
       });
     });
   })();

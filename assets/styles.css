@@ -596,14 +596,15 @@ img {
 
 .collection-card {
   display: grid;
-  gap: 14px;
-  padding: 18px;
+  gap: 0;
+  padding: 0;
   border: 1px solid var(--line);
   border-radius: 18px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.98)),
     var(--collection-accent, linear-gradient(135deg, rgba(58, 110, 165, 0.1), rgba(58, 110, 165, 0.04)));
   box-shadow: 0 14px 30px rgba(24, 41, 62, 0.07);
+  overflow: hidden;
 }
 
 .collection-card.is-open {
@@ -614,11 +615,19 @@ img {
   display: grid;
   gap: 14px;
   width: 100%;
-  padding: 2px;
+  padding: 20px 22px 18px;
   border: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none;
   background: transparent;
   text-align: left;
   cursor: pointer;
+  transition: background 180ms ease;
+}
+
+.collection-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .collection-toggle::after {
@@ -639,6 +648,10 @@ img {
 .collection-toggle[aria-expanded="true"]::after {
   content: "收起目录";
   background: rgba(58, 110, 165, 0.12);
+}
+
+.collection-card.is-open .collection-toggle {
+  border-bottom: 1px solid rgba(58, 110, 165, 0.12);
 }
 
 .collection-card-head {
@@ -668,15 +681,17 @@ img {
   display: grid;
   gap: 10px;
   max-height: 0;
-  overflow-y: auto;
-  padding-right: 6px;
+  overflow: hidden;
+  padding: 0 22px;
   opacity: 0;
-  transition: max-height 260ms ease, opacity 220ms ease, margin-top 220ms ease;
+  transition: max-height 280ms ease, opacity 220ms ease, padding-top 220ms ease, padding-bottom 220ms ease;
 }
 
 .collection-list.is-open {
   max-height: 360px;
-  margin-top: 4px;
+  overflow-y: auto;
+  padding-top: 16px;
+  padding-bottom: 18px;
   opacity: 1;
 }
 
