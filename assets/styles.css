@@ -880,7 +880,7 @@ img {
 .collection-panel-list {
   display: grid;
   gap: 12px;
-  max-height: min(56vh, 480px);
+  max-height: calc(min(78vh, 720px) - 180px);
   min-height: 0;
   overflow-y: auto;
   padding-right: 4px;
