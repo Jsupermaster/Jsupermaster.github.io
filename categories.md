@@ -21,6 +21,10 @@ collections:
     slug: memory-and-systems
     description: 聚焦 DRAM、系统集成与内存层次相关的学习整理。
     accent_class: collection-memory
+  - title: 敏捷硬件开发语言Chisel与数字系统设计
+    slug: chisel-and-scala-study
+    description: 从零开始学习Chisel所需的Scala编程基础，覆盖函数式编程、面向对象、集合、模式匹配、泛型与隐式转换等核心主题。
+    accent_class: collection-fpga
 ---
 <section class="archive-header">
   <p class="section-kicker">COLLECTIONS</p>
