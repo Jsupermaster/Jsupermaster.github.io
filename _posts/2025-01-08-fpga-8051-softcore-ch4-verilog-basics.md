@@ -15,6 +15,8 @@ article_kicker: BOOK NOTE
 cover_image: /assets/images/fpga_8051_softcore/51KE6P2qUSL._SY445_SX342_.jpg
 ---
 
+> 📖 **本书来源：**《8051软核处理器设计实战》，李新兵 著，机械工业出版社，2015年
+>
 ### 4.verilog硬件描述语言基础
 
 这部分主要讲述verilog基础语法和开发指南，笔者认为学习这个项目之前都应该已经有verilog基础，所以关于基础语法内容不多赘述，大家可以参见原书，只在这里记录一下笔者觉得看完仍有收获，值得注意的点。

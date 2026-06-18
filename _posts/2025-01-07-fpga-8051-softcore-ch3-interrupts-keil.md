@@ -15,6 +15,8 @@ article_kicker: BOOK NOTE
 cover_image: /assets/images/fpga_8051_softcore/51KE6P2qUSL._SY445_SX342_.jpg
 ---
 
+> 📖 **本书来源：**《8051软核处理器设计实战》，李新兵 著，机械工业出版社，2015年
+>
 ### 3.8051中断与keil开发流程
 
 #### 3.1 keil的下载与概述
