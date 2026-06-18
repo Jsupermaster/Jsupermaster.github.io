@@ -4,7 +4,7 @@ date: 2025-02-09 09:00:00 +0800
 description: "系统学习Scala的内建控制结构：if表达式（可返回值）、while循环、函数式风格的for表达式与yield、try-catch-finally异常处理、match表达式等。"
 categories:
   - FPGA
-home_category: study-notes
+home_category: reading-notes
 series: chisel-and-scala-study
 tags:
   - Chisel
@@ -13,6 +13,7 @@ tags:
   - for表达式
   - 异常处理
   - match
+cover_image: /assets/images/chisel-scala/cover.jpg
 article_kicker: CHISEL NOTE
 word_count: 4.5k 字
 read_time: 约 13 分钟

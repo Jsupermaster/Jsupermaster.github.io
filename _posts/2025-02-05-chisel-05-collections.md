@@ -4,7 +4,7 @@ date: 2025-02-05 09:00:00 +0800
 description: "系统学习Scala集合库：数组（Array）、列表（List）、数组缓冲/列表缓冲（ArrayBuffer/ListBuffer）、元组（Tuple）、映射（Map）、集（Set）、序列（Seq）及高阶方法（map/foreach/zip/reduce/fold/scan）。"
 categories:
   - FPGA
-home_category: study-notes
+home_category: reading-notes
 series: chisel-and-scala-study
 tags:
   - Chisel
@@ -14,6 +14,7 @@ tags:
   - 列表
   - Map
   - 高阶函数
+cover_image: /assets/images/chisel-scala/cover.jpg
 article_kicker: CHISEL NOTE
 word_count: 8.0k 字
 read_time: 约 22 分钟

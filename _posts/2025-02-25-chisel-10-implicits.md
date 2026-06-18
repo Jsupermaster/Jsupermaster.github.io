@@ -4,7 +4,7 @@ date: 2025-02-25 09:00:00 +0800
 description: "学习Scala中隐式定义（implicit）的核心机制：隐式转换四大规则、转换到期望类型、转换接收端、隐式类、隐式参数以及含隐式参数的主构造方法——这是Chisel DSL语法的基础。"
 categories:
   - FPGA
-home_category: study-notes
+home_category: reading-notes
 series: chisel-and-scala-study
 tags:
   - Chisel
@@ -13,6 +13,7 @@ tags:
   - implicit
   - DSL
   - 隐式参数
+cover_image: /assets/images/chisel-scala/cover.jpg
 article_kicker: CHISEL NOTE
 word_count: 5.5k 字
 read_time: 约 16 分钟

@@ -4,7 +4,7 @@ date: 2025-02-13 09:00:00 +0800
 description: "深度学习Scala最强大的特性之一——模式匹配：样例类、八种模式类型、模式守卫、密封类、可选值（Option）、提取器以及偏函数（PartialFunction）。"
 categories:
   - FPGA
-home_category: study-notes
+home_category: reading-notes
 series: chisel-and-scala-study
 tags:
   - Chisel
@@ -13,6 +13,7 @@ tags:
   - 样例类
   - 偏函数
   - Option
+cover_image: /assets/images/chisel-scala/cover.jpg
 article_kicker: CHISEL NOTE
 word_count: 7.5k 字
 read_time: 约 22 分钟

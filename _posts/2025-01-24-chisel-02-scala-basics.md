@@ -4,7 +4,7 @@ date: 2025-01-24 09:00:00 +0800
 description: "从零搭建Scala开发环境，系统学习Scala变量定义与基本类型、函数的多种形式（函数字面量、高阶函数、闭包、柯里化、传名参数等）。"
 categories:
   - FPGA
-home_category: study-notes
+home_category: reading-notes
 series: chisel-and-scala-study
 tags:
   - Chisel
@@ -13,6 +13,7 @@ tags:
   - 函数式编程
   - 闭包
   - 柯里化
+cover_image: /assets/images/chisel-scala/cover.jpg
 article_kicker: CHISEL NOTE
 word_count: 8.5k 字
 read_time: 约 25 分钟

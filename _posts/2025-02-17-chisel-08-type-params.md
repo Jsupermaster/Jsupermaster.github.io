@@ -4,7 +4,7 @@ date: 2025-02-17 09:00:00 +0800
 description: "深入Scala泛型编程：var字段的getter/setter、类型构造器（泛型类）、型变注解（协变+、逆变-、不变）、型变检查规则、类型构造器的继承关系以及上界/下界。"
 categories:
   - FPGA
-home_category: study-notes
+home_category: reading-notes
 series: chisel-and-scala-study
 tags:
   - Chisel
@@ -13,6 +13,7 @@ tags:
   - 型变
   - 类型构造器
   - 上界下界
+cover_image: /assets/images/chisel-scala/cover.jpg
 article_kicker: CHISEL NOTE
 word_count: 5.5k 字
 read_time: 约 16 分钟

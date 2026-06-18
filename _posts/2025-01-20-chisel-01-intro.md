@@ -4,7 +4,7 @@ date: 2025-01-20 09:00:00 +0800
 description: "开启Chisel与Scala的学习之旅：了解为什么要选择Chisel进行硬件设计、Scala作为宿主语言的优势，以及本书的学习路线安排。"
 categories:
   - FPGA
-home_category: study-notes
+home_category: reading-notes
 series: chisel-and-scala-study
 tags:
   - Chisel
@@ -12,6 +12,7 @@ tags:
   - 硬件设计
   - 敏捷开发
   - 数字系统
+cover_image: /assets/images/chisel-scala/cover.jpg
 article_kicker: CHISEL NOTE
 word_count: 2.3k 字
 read_time: 约 7 分钟

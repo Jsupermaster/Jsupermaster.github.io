@@ -823,6 +823,7 @@ img {
   display: grid;
   gap: 18px;
   padding: 22px;
+  min-height: 0;
 }
 
 .collection-panel-header {
@@ -880,6 +881,7 @@ img {
   display: grid;
   gap: 12px;
   max-height: min(56vh, 480px);
+  min-height: 0;
   overflow-y: auto;
   padding-right: 4px;
 }

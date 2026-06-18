@@ -4,7 +4,7 @@ date: 2025-02-01 09:00:00 +0800
 description: "掌握Scala中包（package）的定义与层次结构、灵活的import导入语法（重命名、隐藏）、访问修饰符（private/protected）及包对象。"
 categories:
   - FPGA
-home_category: study-notes
+home_category: reading-notes
 series: chisel-and-scala-study
 tags:
   - Chisel
@@ -12,6 +12,7 @@ tags:
   - 包
   - import
   - 访问修饰符
+cover_image: /assets/images/chisel-scala/cover.jpg
 article_kicker: CHISEL NOTE
 word_count: 2.2k 字
 read_time: 约 7 分钟

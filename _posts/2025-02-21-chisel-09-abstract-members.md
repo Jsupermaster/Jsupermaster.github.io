@@ -4,7 +4,7 @@ date: 2025-02-21 09:00:00 +0800
 description: "学习Scala中四种抽象成员（抽象类型type、抽象方法、抽象val/var字段），掌握抽象val字段的初始化顺序陷阱与lazy val惰性求值方案，以及Scala枚举的使用。"
 categories:
   - FPGA
-home_category: study-notes
+home_category: reading-notes
 series: chisel-and-scala-study
 tags:
   - Chisel
@@ -13,6 +13,7 @@ tags:
   - 枚举
   - lazy val
   - type关键字
+cover_image: /assets/images/chisel-scala/cover.jpg
 article_kicker: CHISEL NOTE
 word_count: 4.5k 字
 read_time: 约 13 分钟
