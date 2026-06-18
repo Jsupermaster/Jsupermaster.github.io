@@ -820,8 +820,7 @@ img {
 }
 
 .collection-panel-inner {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 18px;
   padding: 22px;
   overflow: hidden;
@@ -881,7 +880,7 @@ img {
 .collection-panel-list {
   display: grid;
   gap: 12px;
-  flex: 1;
+  max-height: min(56vh, 480px);
   min-height: 0;
   overflow-y: auto;
   padding-right: 4px;
@@ -1766,6 +1765,10 @@ img {
 
   .collection-panel-actions {
     justify-items: start;
+  }
+
+  .collection-panel-list {
+    max-height: calc(100vh - 220px);
   }
 
   .panel-heading {
