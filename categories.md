@@ -17,6 +17,10 @@ collections:
     slug: gem5-full-system-notes
     description: 覆盖简易 SoC 搭建、Linux 启动与系统级调试的 Gem5 实践记录。
     accent_class: collection-gem5
+  - title: Alveo开发
+    slug: alveo-development
+    description: 记录 Alveo 平台认知、环境搭建、软件栈梳理与后续开发实践。
+    accent_class: collection-fpga
   - title: 内存与系统
     slug: memory-and-systems
     description: 聚焦 DRAM、系统集成与内存层次相关的学习整理。
