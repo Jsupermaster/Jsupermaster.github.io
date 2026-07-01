@@ -1,6 +1,6 @@
 ---
 title: Xilinx(AMD) Alveo 软件栈与安装组成梳理：XRT、Platform、Firmware、Vitis 分别是什么
-date: 2026-07-01 23:10:00 +0800
+date: 2026-07-01 22:10:00 +0800
 description: 梳理 Alveo U50 平台、固件、XRT 驱动与运行时、Vitis 开发工具之间的关系，明确部署环境与开发环境分别需要安装什么。
 categories:
   - FPGA
