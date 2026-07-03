@@ -1,6 +1,6 @@
 ---
 title: "大语言模型推理与硬件加速综述"
-date: 2026-07-03 21:30:00 +0800
+date: 2026-07-03 14:30:00 +0800
 description: 从推理阶段的计算流程、KV Cache、量化、PagedAttention、MoE 到 NPU/ASIC 设计约束，系统梳理 LLM 推理硬件加速的关键问题。
 categories:
   - AI Accelerator
