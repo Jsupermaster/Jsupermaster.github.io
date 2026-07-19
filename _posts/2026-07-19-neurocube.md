@@ -1,6 +1,6 @@
 ---
 title: "Neurocube：一种基于高密度 3D 存储的可编程数字神经形态架构"
-date: 2026-07-19 21:20:00 +0800
+date: 2026-07-19 09:00:00 +0800
 description: "完整整理 ISCA 2016 论文《Neurocube: A Programmable Digital Neuromorphic Architecture with High-Density 3D Memory》的问题背景、架构设计、关键机制、实验结果与局限性。"
 categories:
   - PIM/PNM
