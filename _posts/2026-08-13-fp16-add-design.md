@@ -13,6 +13,7 @@ tags:
   - DSP48E2
   - CARRY8
 article_kicker: FPGA DESIGN NOTE
+cover_image: /assets/images/fp16_add/fp16-add-hero.jpeg
 word_count: 约 13k 字
 read_time: 约 45 分钟
 ---
