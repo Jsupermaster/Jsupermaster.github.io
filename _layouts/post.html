@@ -62,6 +62,32 @@ layout: default
       {{ content }}
     </div>
 
+    {% if site.giscus.enabled and site.giscus.repo_id != "" and site.giscus.category_id != "" %}
+    <section class="post-engagement" aria-labelledby="post-engagement-title">
+      <div class="post-engagement-heading">
+        <p class="section-kicker">参与讨论</p>
+        <h2 id="post-engagement-title">评论与点赞</h2>
+      </div>
+      <div class="giscus"></div>
+      <script
+        src="https://giscus.app/client.js"
+        data-repo="{{ site.giscus.repo | escape }}"
+        data-repo-id="{{ site.giscus.repo_id | escape }}"
+        data-category="{{ site.giscus.category | escape }}"
+        data-category-id="{{ site.giscus.category_id | escape }}"
+        data-mapping="{{ site.giscus.mapping | default: 'pathname' }}"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </section>
+    {% endif %}
+
     <div class="post-actions">
       <a class="read-link" href="{{ '/blog/index.html' | relative_url }}">返回分类</a>
       <a class="read-link" href="{{ '/' | relative_url }}">返回首页</a>

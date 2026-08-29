@@ -1415,6 +1415,24 @@ img {
   width: 100%;
 }
 
+.post-engagement {
+  margin-top: 34px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+
+.post-engagement-heading h2 {
+  margin: 6px 0 0;
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.7rem;
+  line-height: 1.35;
+}
+
+.post-engagement .giscus {
+  margin-top: 22px;
+  min-height: 160px;
+}
+
 .post-content > * {
   min-width: 0;
   max-width: 100%;
