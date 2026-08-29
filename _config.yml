@@ -22,11 +22,11 @@ defaults:
       author: Jsupermaster
 
 # Giscus stores comments and reactions in GitHub Discussions.
-# Fill in repo_id and category_id from https://giscus.app/ before publishing.
+# Giscus repository and discussion category identifiers.
 giscus:
   enabled: true
   repo: "Jsupermaster/Jsupermaster.github.io"
-  repo_id: ""
+  repo_id: "R_kgDOSGlXTA"
   category: "Announcements"
-  category_id: ""
+  category_id: "DIC_kwDOSGlXTM4DEcy-"
   mapping: "pathname"
