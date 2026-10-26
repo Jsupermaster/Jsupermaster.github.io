@@ -29,6 +29,10 @@ collections:
     slug: chisel-and-scala-study
     description: 从零开始学习Chisel所需的Scala编程基础，覆盖函数式编程、面向对象、集合、模式匹配、泛型与隐式转换等核心主题。
     accent_class: collection-fpga
+  - title: Efficient Processing of DNN读书笔记
+    slug: efficient-processing-of-dnn
+    description: 记录 DNN 基础、典型模型与工作负载，以及高效处理硬件和软硬件协同设计的章节笔记。
+    accent_class: collection-pim
 ---
 <section class="archive-header">
   <p class="section-kicker">COLLECTIONS</p>
