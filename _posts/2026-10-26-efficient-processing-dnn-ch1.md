@@ -1,5 +1,5 @@
 ---
-title: "《Efficient Processing of Deep Neural Networks》第一章：Introduction 读书笔记"
+title: "《Efficient Processing of Deep Neural Networks》读书笔记 第一章：Introduction"
 date: 2026-10-26 12:01:00 +0800
 description: "梳理 DNN 基本计算、训练与推理、发展背景和应用场景，并从边缘部署约束出发总结高效处理的核心问题。"
 categories:
