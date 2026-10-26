@@ -4,7 +4,7 @@ date: 2026-09-05 12:00:00 +0800
 description: 从 GPU 硬件层次、CUDA 软件栈和向量加法 Kernel 出发，梳理一个异构计算任务从 Host 代码到 SM 执行再返回主机的完整路径。
 categories:
   - AI Accelerator
-home_category: engineering-practice
+home_category: study-notes
 tags:
   - GPU
   - CUDA
