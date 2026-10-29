@@ -60,7 +60,7 @@
     <header class="topbar{% if page.hero_background or page.cover_image %} topbar-immersive{% endif %}">
       <div class="topbar-inner">
         <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-        <nav class="topnav">
+        <nav class="topnav" aria-label="主导航">
           <a class="nav-link {% if page.nav == 'home' %}is-active{% endif %}" href="{{ '/' | relative_url }}">
             <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 2.4 10.8l1.2 1.5L5 11.2V20h5v-5h4v5h5v-8.8l1.4 1.1 1.2-1.5z"/></svg></span>
             <span>首页</span>
@@ -101,8 +101,9 @@
           <span aria-hidden="true">×</span>
         </button>
       </div>
-      <input id="global-search-input" class="search-input" type="search" placeholder="搜索标题、标签、分类、摘要..." autocomplete="off">
-      <div id="global-search-results" class="search-results"></div>
+      <label class="search-label" for="global-search-input">搜索标题、标签、分类或摘要</label>
+      <input id="global-search-input" class="search-input" type="search" placeholder="输入关键词..." autocomplete="off">
+      <div id="global-search-results" class="search-results" role="status" aria-live="polite" aria-atomic="true"></div>
     </div>
   </div>
   {% if page.hero_background or page.cover_image %}
@@ -151,10 +152,13 @@
       const input = document.getElementById('global-search-input');
       const results = document.getElementById('global-search-results');
       const trigger = document.querySelector('.search-trigger');
-      if (!modal || !input || !results || !trigger) return;
+      const closeButton = modal?.querySelector('.search-close');
+      const dialog = modal?.querySelector('.search-dialog');
+      if (!modal || !input || !results || !trigger || !closeButton || !dialog) return;
 
       let items = [];
       let loaded = false;
+      let loading = false;
 
       const render = (matches, query) => {
         if (!query) {
@@ -175,20 +179,42 @@
         `).join('');
       };
 
+      const loadIndex = () => {
+        if (loaded || loading) return;
+        loading = true;
+        results.innerHTML = '<p class="search-empty" role="status">正在加载搜索内容…</p>';
+        fetch('{{ "/search.json" | relative_url }}')
+          .then(res => {
+            if (!res.ok) throw new Error('Search index request failed');
+            return res.json();
+          })
+          .then(data => {
+            if (!Array.isArray(data)) throw new Error('Search index is invalid');
+            items = data;
+            loaded = true;
+            const query = input.value.trim().toLowerCase();
+            const matches = items.filter(item =>
+              item.title.toLowerCase().includes(query) ||
+              item.meta.toLowerCase().includes(query) ||
+              item.excerpt.toLowerCase().includes(query)
+            );
+            render(matches, query);
+          })
+          .catch(() => {
+            results.innerHTML = '<p class="search-empty" role="alert">搜索内容加载失败。<button class="search-retry" type="button">重试</button></p>';
+            results.querySelector('.search-retry')?.addEventListener('click', loadIndex, { once: true });
+          })
+          .finally(() => { loading = false; });
+      };
+
+      const getFocusable = () => Array.from(dialog.querySelectorAll('a[href], button:not(:disabled), input:not(:disabled), [tabindex]:not([tabindex="-1"])'))
+        .filter(element => element.getClientRects().length > 0);
+
       const openSearch = () => {
         modal.hidden = false;
         document.body.classList.add('search-open');
-        if (!loaded) {
-          fetch('{{ "/search.json" | relative_url }}')
-            .then(res => res.json())
-            .then(data => {
-              items = data;
-              loaded = true;
-              render([], '');
-            });
-        } else {
-          render([], '');
-        }
+        loadIndex();
+        if (loaded) render([], '');
         input.value = '';
         requestAnimationFrame(() => input.focus());
       };
@@ -196,6 +222,7 @@
       const closeSearch = () => {
         modal.hidden = true;
         document.body.classList.remove('search-open');
+        trigger.focus();
       };
 
       trigger.addEventListener('click', openSearch);
@@ -204,9 +231,26 @@
       });
       document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && !modal.hidden) closeSearch();
+        if (event.key === 'Tab' && !modal.hidden) {
+          const focusable = getFocusable();
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (!first || !last) return;
+          if (event.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && (document.activeElement === last || !dialog.contains(document.activeElement))) {
+            event.preventDefault();
+            first.focus();
+          }
+        }
       });
       input.addEventListener('input', () => {
         const query = input.value.trim().toLowerCase();
+        if (!loaded) {
+          results.innerHTML = '<p class="search-empty" role="status">正在加载搜索内容…</p>';
+          return;
+        }
         const matches = items.filter(item =>
           item.title.toLowerCase().includes(query) ||
           item.meta.toLowerCase().includes(query) ||

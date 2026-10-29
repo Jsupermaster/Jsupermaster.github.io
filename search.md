@@ -16,8 +16,9 @@ permalink: /search/index.html
     <h3>搜索内容</h3>
     <span>文章与页面</span>
   </div>
-  <input id="search-input" class="search-input" type="search" placeholder="搜索标题、标签、分类..." autocomplete="off">
-  <div id="search-results" class="search-results"></div>
+  <label class="search-label" for="search-input">搜索标题、标签、分类或摘要</label>
+  <input id="search-input" class="search-input" type="search" placeholder="输入关键词..." autocomplete="off">
+  <div id="search-results" class="search-results" role="status" aria-live="polite" aria-atomic="true"></div>
 </section>
 
 <script>
@@ -43,11 +44,18 @@ permalink: /search/index.html
         </a>
       `).join('');
     };
+    results.innerHTML = '<p class="search-empty" role="status">正在加载搜索内容…</p>';
     fetch('{{ "/search.json" | relative_url }}')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Search index request failed');
+        return res.json();
+      })
       .then(data => {
         items = data;
         render([], '');
+      })
+      .catch(() => {
+        results.innerHTML = '<p class="search-empty" role="alert">搜索内容加载失败，请刷新页面后重试。</p>';
       });
     input.addEventListener('input', () => {
       const query = input.value.trim().toLowerCase();
