@@ -24,7 +24,36 @@
     };
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-  <script defer src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script defer data-prefix="busuanzi_value" src="https://jsd.dusays.com/npm/penndu@17.0.0/bsz.js"></script>
+  <script>
+    (() => {
+      // Add the legacy totals as a display baseline without double-counting our own DOM update.
+      const legacyBase = Object.freeze({ site_uv: 278, site_pv: 2796 });
+      const lastRenderedValue = new WeakMap();
+
+      const applyLegacyBase = () => {
+        Object.entries(legacyBase).forEach(([key, base]) => {
+          const target = document.getElementById(`busuanzi_value_${key}`);
+          if (!target) return;
+
+          const raw = target.textContent.trim();
+          if (raw === lastRenderedValue.get(target)) return;
+
+          const current = Number.parseInt(raw.replace(/,/g, ''), 10);
+          if (!Number.isFinite(current)) return;
+
+          const rendered = String(current + base);
+          lastRenderedValue.set(target, rendered);
+          if (raw !== rendered) target.textContent = rendered;
+        });
+      };
+
+      const observer = new MutationObserver(applyLegacyBase);
+      observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+      applyLegacyBase();
+      window.setTimeout(() => observer.disconnect(), 10000);
+    })();
+  </script>
 </head>
 <body class="{% if page.hero_background or page.cover_image %}has-immersive-hero{% endif %}">
   <div class="site-shell">
