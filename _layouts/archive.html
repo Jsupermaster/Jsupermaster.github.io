@@ -64,6 +64,7 @@ layout: default
     if (!buttons.length || !cards.length || !pagination) return;
 
     const PAGE_SIZE = 10;
+    let showAllPosts = new URLSearchParams(window.location.search).get('view') === 'all';
     let activeFilter = 'all';
     let currentPage = 1;
 
@@ -129,6 +130,16 @@ layout: default
 
     const updateView = () => {
       const filteredCards = getFilteredCards(activeFilter);
+
+      if (showAllPosts && activeFilter === 'all') {
+        cards.forEach((card) => {
+          card.hidden = !filteredCards.includes(card);
+        });
+        pagination.innerHTML = '';
+        pagination.hidden = true;
+        return;
+      }
+
       const totalPages = Math.max(1, Math.ceil(filteredCards.length / PAGE_SIZE));
       if (currentPage > totalPages) currentPage = totalPages;
 

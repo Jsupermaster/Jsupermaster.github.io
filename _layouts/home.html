@@ -11,6 +11,7 @@ layout: default
       <p class="home-hero-title-en">{{ page.hero_title_en }}</p>
       <p class="home-hero-copy">{{ page.hero_subtitle }}</p>
       <p class="home-hero-en">{{ page.hero_subtitle_en }}</p>
+      <p class="home-post-count"><strong>{{ site.posts | size }}</strong> 篇文章</p>
       <nav class="home-topic-links" aria-label="按内容类型浏览">
         <a href="{{ '/blog/PIM/index.html' | relative_url }}">论文阅读</a>
         <a href="{{ '/blog/AI_Accelerator/index.html' | relative_url }}">工程实践</a>
@@ -87,12 +88,6 @@ layout: default
     </div>
 
     <section class="home-feed" aria-labelledby="home-feed-title">
-      <div class="home-section-heading">
-        <div>
-          <h2 id="home-feed-title">更多文章</h2>
-        </div>
-        <a href="{{ '/blog/index.html' | relative_url }}">浏览全部文章 <span aria-hidden="true">→</span></a>
-      </div>
       <div class="home-post-list">
         {% for post in site.posts limit: 10 offset: 4 %}
         {% assign post_summary = post.description | default: post.excerpt %}
@@ -111,12 +106,18 @@ layout: default
           </div>
           {% if post.cover_image %}
           <a class="home-feed-cover" href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true">
-            <img src="{{ post.cover_image | relative_url }}" alt="" loading="lazy" width="440" height="272">
+            <img src="{{ post.cover_image | relative_url }}" alt="" loading="lazy" width="480" height="270">
           </a>
           {% endif %}
         </article>
         {% endfor %}
       </div>
+      <footer class="home-section-heading home-feed-footer">
+        <div>
+          <h2 id="home-feed-title">更多文章</h2>
+        </div>
+        <a href="{{ '/blog/index.html?view=all' | relative_url }}">浏览全部文章 <span aria-hidden="true">→</span></a>
+      </footer>
     </section>
   </div>
 </div>

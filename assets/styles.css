@@ -1788,6 +1788,17 @@ input:focus-visible {
   line-height: 1.65;
 }
 
+.home-post-count {
+  margin: 14px 0 0;
+  color: #dce8f2;
+  font-size: 0.83rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-post-count strong {
+  color: #ffffff;
+}
+
 .home-topic-links {
   display: flex;
   flex-wrap: wrap;
@@ -2113,7 +2124,8 @@ input:focus-visible {
   justify-content: space-between;
   align-items: end;
   margin-bottom: 0;
-  padding-bottom: 15px;
+  padding: 28px 0 0;
+  border-bottom: 0;
 }
 
 .home-feed .home-section-heading h2 {
@@ -2183,6 +2195,7 @@ input:focus-visible {
 
 .home-feed-cover img {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
