@@ -479,10 +479,14 @@ input:focus-visible {
   margin: 0 auto;
 }
 
-.post-feed,
-.archive-list {
+.post-feed {
   display: grid;
   gap: 18px;
+}
+
+.archive-list {
+  display: grid;
+  gap: 0;
 }
 
 .post-feed-grid {
@@ -2218,6 +2222,38 @@ input:focus-visible {
   text-wrap: pretty;
 }
 
+.archive-feed-card h2 {
+  margin: 8px 0 0;
+  color: var(--text);
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.2rem;
+  line-height: 1.48;
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
+
+.archive-feed-card {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 22px 0;
+}
+
+.archive-feed-card h2 a:hover {
+  color: #245e92;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.archive-feed-copy {
+  padding-left: 0;
+}
+
+.archive-feed-card-no-cover {
+  grid-template-columns: 1fr;
+}
+
 .home-feed-card .feed-excerpt {
   display: -webkit-box;
   overflow: hidden;
@@ -2461,6 +2497,10 @@ input:focus-visible {
     grid-template-columns: 1fr;
     gap: 11px;
     padding: 20px 0;
+  }
+
+  .archive-feed-card-no-cover {
+    grid-template-columns: 1fr;
   }
 
   .home-feed-heading {
