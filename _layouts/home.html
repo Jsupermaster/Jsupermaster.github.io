@@ -11,7 +11,11 @@ layout: default
       <p class="home-hero-title-en">{{ page.hero_title_en }}</p>
       <p class="home-hero-copy">{{ page.hero_subtitle }}</p>
       <p class="home-hero-en">{{ page.hero_subtitle_en }}</p>
-      <p class="home-post-count"><strong>{{ site.posts | size }}</strong> 篇文章</p>
+      <div class="home-stats-row" role="group" aria-label="站点统计">
+        <span><strong>{{ site.posts | size }}</strong> 篇文章</span>
+        <span><strong id="busuanzi_value_site_uv" aria-live="polite" aria-atomic="true">—</strong> 位访客</span>
+        <span><strong id="busuanzi_value_site_pv" aria-live="polite" aria-atomic="true">—</strong> 次浏览</span>
+      </div>
       <nav class="home-topic-links" aria-label="按内容类型浏览">
         <a href="{{ '/blog/PIM/index.html' | relative_url }}">论文阅读</a>
         <a href="{{ '/blog/AI_Accelerator/index.html' | relative_url }}">工程实践</a>
@@ -73,25 +77,26 @@ layout: default
         <div>
           <h2 id="home-topic-title">发现更多主题</h2>
         </div>
-        <a href="{{ '/blog/index.html' | relative_url }}">浏览全部分类 <span aria-hidden="true">→</span></a>
       </div>
       <div class="home-topic-list">
         <a href="{{ '/categories/index.html' | relative_url }}"><span>合集</span><span>沿同一主题连续阅读文章系列</span><span aria-hidden="true">↗</span></a>
         <a href="{{ '/tags/index.html' | relative_url }}"><span>标签</span><span>跨分类浏览相同技术关键词</span><span aria-hidden="true">↗</span></a>
       </div>
+      <div class="home-topic-all">
+        <h2>更多文章</h2>
+        <a href="{{ '/blog/index.html?view=all' | relative_url }}">浏览全部文章 <span aria-hidden="true">→</span></a>
+      </div>
     </nav>
 
-    <div class="home-stats-row" role="group" aria-label="站点统计">
-      <span><strong>{{ site.posts | size }}</strong> 篇文章</span>
-      <span><strong id="busuanzi_value_site_uv" aria-live="polite" aria-atomic="true">—</strong> 位访客</span>
-      <span><strong id="busuanzi_value_site_pv" aria-live="polite" aria-atomic="true">—</strong> 次浏览</span>
-    </div>
-
-    <section class="home-feed" aria-labelledby="home-feed-title">
+    <section class="home-feed" aria-labelledby="home-feed-title" data-api="https://bsz.dusays.com:9001/api" data-site-url="{{ site.url }}">
+      <div class="home-section-heading home-feed-heading">
+        <h2 id="home-feed-title">文章阅读排行</h2>
+        <span>按累计浏览量排序</span>
+      </div>
       <div class="home-post-list">
-        {% for post in site.posts limit: 10 offset: 4 %}
+        {% for post in site.posts %}
         {% assign post_summary = post.description | default: post.excerpt %}
-        <article class="home-feed-card">
+        <article class="home-feed-card" data-post-path="{{ post.url | relative_url }}" hidden>
           <div class="home-feed-copy">
             <div class="feed-meta">
               <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
@@ -112,12 +117,105 @@ layout: default
         </article>
         {% endfor %}
       </div>
-      <footer class="home-section-heading home-feed-footer">
-        <div>
-          <h2 id="home-feed-title">更多文章</h2>
-        </div>
-        <a href="{{ '/blog/index.html?view=all' | relative_url }}">浏览全部文章 <span aria-hidden="true">→</span></a>
-      </footer>
+      <p class="home-feed-status" role="status" aria-live="polite">正在统计文章浏览量…</p>
+      <button class="home-feed-retry" type="button" hidden>重新加载</button>
     </section>
   </div>
 </div>
+
+<script>
+  (() => {
+    const feed = document.querySelector('.home-feed[data-api]');
+    const list = feed?.querySelector('.home-post-list');
+    const status = feed?.querySelector('.home-feed-status');
+    const retry = feed?.querySelector('.home-feed-retry');
+    const cards = Array.from(feed?.querySelectorAll('[data-post-path]') || []);
+    if (!feed || !list || !status || !retry || !cards.length) return;
+
+    const cacheKey = 'homepage-post-view-counts-v1';
+    const cacheDuration = 60 * 60 * 1000;
+    const apiUrl = feed.dataset.api;
+
+    const render = (counts) => {
+      const ranked = cards.map((card) => ({
+        card,
+        views: counts[card.dataset.postPath],
+      })).sort((left, right) => right.views - left.views
+        || right.card.querySelector('time').dateTime.localeCompare(left.card.querySelector('time').dateTime));
+
+      list.replaceChildren();
+      ranked.slice(0, 10).forEach(({ card, views }, index) => {
+        card.hidden = false;
+        card.dataset.viewRank = String(index + 1);
+        card.querySelector('.home-feed-copy').insertAdjacentHTML('afterbegin',
+          `<span class="home-feed-rank" aria-label="第 ${index + 1} 名">${index + 1}</span>`);
+        card.querySelector('.feed-meta').insertAdjacentHTML('beforeend',
+          `<span class="home-feed-views">${views.toLocaleString('zh-CN')} 次浏览</span>`);
+        list.append(card);
+      });
+      status.hidden = true;
+      retry.hidden = true;
+    };
+
+    const load = async () => {
+      cards.forEach((card) => {
+        card.hidden = true;
+        card.querySelector('.home-feed-rank')?.remove();
+        card.querySelector('.home-feed-views')?.remove();
+      });
+      retry.hidden = true;
+      status.hidden = false;
+      status.textContent = '正在统计文章浏览量…';
+
+      try {
+        const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+        if (cached && Date.now() - cached.savedAt < cacheDuration
+          && cards.every(card => Number.isSafeInteger(cached.counts?.[card.dataset.postPath]))) {
+          render(cached.counts);
+          return;
+        }
+      } catch {
+        try { localStorage.removeItem(cacheKey); } catch { /* Storage can be disabled by the browser. */ }
+      }
+
+      try {
+        const counts = {};
+        let nextIndex = 0;
+        const readNext = async () => {
+          while (nextIndex < cards.length) {
+            const card = cards[nextIndex++];
+            const pageUrl = new URL(card.dataset.postPath, feed.dataset.siteUrl).href;
+            const response = await fetch(apiUrl, {
+              method: 'GET',
+              headers: { 'x-bsz-referer': pageUrl },
+              signal: AbortSignal.timeout(8000),
+            });
+            if (!response.ok) throw new Error(`Statistics request failed: ${response.status}`);
+            const payload = await response.json();
+            const value = payload.data?.page_pv ?? payload.page_pv;
+            if (payload.success !== true || !Number.isSafeInteger(value) || value < 0) {
+              throw new Error('Invalid page view response');
+            }
+            counts[card.dataset.postPath] = value;
+          }
+        };
+
+        await Promise.all(Array.from({ length: Math.min(6, cards.length) }, readNext));
+        try {
+          localStorage.setItem(cacheKey, JSON.stringify({ savedAt: Date.now(), counts }));
+        } catch { /* A blocked cache should not prevent showing a successful ranking. */ }
+        render(counts);
+      } catch {
+        cards.slice(0, 10).forEach(card => {
+          card.hidden = false;
+          list.append(card);
+        });
+        status.textContent = '浏览量排行榜暂时无法加载，以下显示最新文章。';
+        retry.hidden = false;
+      }
+    };
+
+    retry.addEventListener('click', load);
+    load();
+  })();
+</script>
