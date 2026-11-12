@@ -100,10 +100,24 @@ img {
 }
 
 .site-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: #f7fbff;
+}
+
+.site-title .site-logo {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 9px;
+  object-fit: cover;
+  box-shadow: 0 3px 10px rgba(6, 22, 38, 0.18);
 }
 
 .topnav {
@@ -2571,6 +2585,13 @@ input:focus-visible {
   .site-title {
     align-self: flex-start;
     font-size: 0.98rem;
+  }
+
+  .site-title .site-logo {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+    border-radius: 8px;
   }
 
   .topnav {
